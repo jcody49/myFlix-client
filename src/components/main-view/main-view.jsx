@@ -14,7 +14,7 @@ const MainView = () => {
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies")
       .then((response) => response.json())
       .then((data) => {
-        const moviesFromApi = data.docs.map((doc) => {
+        const moviesFromApi = data.map((doc) => {
           return {
             ImagePath: doc.ImagePath,
             Title: doc.Title,
@@ -28,6 +28,10 @@ const MainView = () => {
         setMovies(moviesFromApi);
       });
   }, []);
+
+  if (!user) {
+    return <LoginView />;
+  }
 
   if (selectedMovie) {
     return (
