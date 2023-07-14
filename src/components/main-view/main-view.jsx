@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -8,6 +7,8 @@ const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
 
 
   useEffect(() => {
@@ -19,8 +20,8 @@ const MainView = () => {
             ImagePath: doc.ImagePath,
             Title: doc.Title,
             Description: doc.Description,
-            Genre: doc.Genre.Name,
-            Director: doc.Director.Name,
+            Genre: doc.Genre,
+            Director: doc.Director,
             Featured: doc.Featured
           };
         });
@@ -30,8 +31,30 @@ const MainView = () => {
   }, []);
 
   if (!user) {
-    return <LoginView />;
+    return (
+      <LoginView
+        onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+        }}
+      />
+    );
   }
+
+  //passes bearer authorization in the header HTTP requests
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, [token]/*dependency array ensures fetch is called every time token changes*/);
 
   if (selectedMovie) {
     return (
@@ -45,6 +68,11 @@ const MainView = () => {
 
   return (
     <div>
+
+      <button onClick={() => { setUser(null); setToken(null); }}>
+        Logout
+      </button>
+
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}
@@ -58,31 +86,4 @@ const MainView = () => {
   );
 };
 
-
-
-  /*
-  if (selectedMovie) {
-    return (
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-    );
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
-  return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-    </div>
-  );
-};*/
 export default MainView;
