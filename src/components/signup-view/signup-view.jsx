@@ -10,10 +10,10 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      Username: Username,
+      Password: Password,
+      Email: Email,
+      Birthday: Birthday
     };
 
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/users", {
@@ -75,4 +75,3 @@ export const SignupView = () => {
     </form>
   );
 };
-//test2
