@@ -19,7 +19,7 @@ export const MainView = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((movie) => {
         const moviesFromApi = data.map((movie) => {
           return {
             id: movie._id,
