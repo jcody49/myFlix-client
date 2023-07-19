@@ -9,8 +9,8 @@ export const MainView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [user, setUser] = useState(storedUser || null);
+  const [token, setToken] = useState(storedToken || null);
 
   useEffect(() => {
     if (!token) return;
@@ -41,16 +41,12 @@ export const MainView = () => {
 
   if (!user) {
     return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
-      </>
+      <LoginView
+        onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+        }}
+      />
     );
   }
 
@@ -62,7 +58,7 @@ export const MainView = () => {
 
   if (movies.length === 0) {
     return <div>The list is empty!</div>;
-  };
+  }
 
   return (
     <div>
