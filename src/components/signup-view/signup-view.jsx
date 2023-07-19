@@ -4,7 +4,7 @@ export const SignupView = () => {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const [Email, setEmail] = useState("");
-  const [Birthday, setBirthday] = useState("");
+  const [Birthdate, setBirthdate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,7 +13,7 @@ export const SignupView = () => {
       Username: Username,
       Password: Password,
       Email: Email,
-      Birthday: Birthday
+      Birthday: Birthdate
     };
 
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/users", {
@@ -63,11 +63,11 @@ export const SignupView = () => {
         />
       </label>
       <label>
-        Birthday:
+        Birthdate:
         <input
           type="date"
-          value={Birthday}
-          onChange={(e) => setBirthday(e.target.value)}
+          value={Birthdate}
+          onChange={(e) => setBirthdate(e.target.value)}
           required
         />
       </label>
