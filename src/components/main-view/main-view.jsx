@@ -22,17 +22,14 @@ export const MainView = () => {
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
           return {
-            id: movie._id,
-            Title: movie.Title,
             ImagePath: movie.ImagePath,
+            Title: movie.Title,
             Description: movie.Description,
             Genre: {
               Name: movie.Genre.Name,
-              Description: movie.Genre.Description
             },
             Director: {
               Name: movie.Director.Name,
-              Bio: movie.Director.Bio
             },
             Featured: movie.Featured.toString()
           };
