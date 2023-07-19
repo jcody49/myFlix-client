@@ -39,6 +39,14 @@ export const MainView = () => {
       });
   }, [token]);
 
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear(); // Clearing token and other user data from localStorage
+  };
+
+
   if (!user) {
     return (
       <LoginView
