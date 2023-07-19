@@ -27,10 +27,12 @@ export const MainView = () => {
             ImagePath: movie.ImagePath,
             Description: movie.Description,
             Genre: {
-              Name: movie.Genre.Name
+              Name: movie.Genre.Name,
+              Description: movie.Genre.Description
             },
             Director: {
-              Name: movie.Director.Name
+              Name: movie.Director.Name,
+              Bio: movie.Director.Bio
             },
             Featured: movie.Featured.toString()
           };
