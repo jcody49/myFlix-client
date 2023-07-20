@@ -19,7 +19,7 @@ const MyFlixApplication = () => {
     );
 };
 
-// Finds the root of your app
+// Finds the root of the app
 const container = document.querySelector("#root");
 const root = createRoot(container);
 
