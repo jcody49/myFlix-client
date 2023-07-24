@@ -2,7 +2,7 @@ import react from "React";
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 
-export const MovieCard = ({ book, onMovieClick }) => {
+export const MovieCard = ({ movie, onMovieClick }) => {
   return (
     <Card onClick={() => onMovieClick(movie)}>
       <Card.Img variant="top" src={movie.image} />
