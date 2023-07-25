@@ -1,35 +1,79 @@
-import React from "react";
+import React, {useEffect,useState} from "react";
+import Button from "react-bootstrap/Button";
+import { Card } from "react-bootstrap";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import "./movie-view.scss";
 
 export const MovieView = ({ movie }) => {
   const { movieId } = useParams();
+  const [ isFavorite, setIsFavorite ] = useState(false);
 
-  const book = movies.find((b) => b.id === movieId);
+  useEffect(() => {
+    const isFavorited = user.FavoriteMovies.includes(movieId)
+    setIsFavorite(isFavorited)
+ }, []);
+
+
+ const removeFavorite = () => {
+  fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}/${movieId}`, {
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+      }
+  }).then((response) => {
+      if (response.ok) {
+          return response.json()
+      }
+  }).then((data) => {
+      setIsFavorite(false);
+      localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
+  })
+};
+
+const addToFavorite = () => {
+  fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}/${movieId}`, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+      }
+  }).then((response) => {
+      if (response.ok) {
+          return response.json()
+      }
+  }).then((data) => {
+      setIsFavorite(true);
+      localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
+  })
+}
+
+
+
+  const movie = movies.find((b) => b.id === movieId);
 
   return (
-    <div>
-      <div>
-        <img className="w-100" src={movie.Image} />
-      </div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.Director.Name}</span>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{movie.Genre.Name}</span>
-      </div>
-      <div>
-        <span>Description: </span>
-        <span>{movie.Description}</span>
-      </div>
-      <Link to={`/`}>
-        <button className="back-button">Back</button>
-      </Link>
-    </div>
+    <Card className="mt-1 mb-1 h-100 bg-secondary" >
+            <Card.Img variant="top" src={movie.Image}/>
+            <Card.Body>
+                <Card.Title>{movie.Title}</Card.Title>
+                <Card.Text>Description: {movie.Description}</Card.Text>
+                <Card.Text>Director: {movie.Director.Name}</Card.Text>
+                <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
+            </Card.Body>
+
+            {isFavorite ? (
+                <Button onClick={removeFavorite}>Remove from favorites</Button>
+            ) : (
+                <Button onClick={addToFavorite}>Add to favorites</Button>
+            )}
+
+            <Link to={"/"}>
+            <Button>Back</Button>
+            </Link>
+        </Card>
   );
 };
