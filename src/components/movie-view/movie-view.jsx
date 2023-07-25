@@ -1,11 +1,15 @@
 import React from "react";
 import "./movie-view.scss";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movie }) => {
+  const { movieId } = useParams();
+
+  const book = movies.find((b) => b.id === movieId);
+
   return (
     <div>
       <div>
-        <img src={movie.Image} />
+        <img className="w-100" src={movie.Image} />
       </div>
       <div>
         <span>Title: </span>
@@ -23,13 +27,9 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Description: </span>
         <span>{movie.Description}</span>
       </div>
-      <button
-        onClick={onBackClick}
-        className="back-button"
-        style={{ cursor: "pointer" }}
-      >
-        Back
-      </button>
+      <Link to={`/`}>
+        <button className="back-button">Back</button>
+      </Link>
     </div>
   );
 };

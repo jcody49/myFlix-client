@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from 'react-dom/client';
 
 import MainView from "./components/main-view/main-view";
+import Container from "react-bootstrap/Container";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -10,12 +11,10 @@ import "./index.scss";
 
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => {
-    return (
-        <div>
-          <h1>
-          <MainView />
-          </h1>
-        </div>
+    return ( 
+      <Container>
+        <MainView />
+      </Container> 
     );
 };
 
