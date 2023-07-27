@@ -10,7 +10,6 @@ import { NavigationBar } from '../navigation-bar/navigation-bar';
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser || null);
@@ -26,11 +25,12 @@ export const MainView = () => {
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
           return {
+            _id: movie._id,
             ImagePath: movie.ImagePath,
             Title: movie.Title,
             Description: movie.Description,
             Genre: {
-              Name: movie.Genre.Name,
+              Name: movie.Genre.Name
             },
             Director: {
               Name: movie.Director.Name,
@@ -113,7 +113,7 @@ export const MainView = () => {
                 ) : (
                   <>
                     {movies.map((movie) => (
-                      <Col className="mb-4" key={movie.id} md={3}>
+                      <Col className="mb-4" key={movie._id} md={3}>
                         <MovieCard movie={movie} />
                       </Col>
                     ))}
