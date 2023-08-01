@@ -5,10 +5,11 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, user, setUser }) => {
   const { movieId } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  //const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -84,5 +85,5 @@ export const MovieView = ({ movies }) => {
       </Link>
       </Card.Body>
     </Card>
-  );
+  )
 };
