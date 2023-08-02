@@ -53725,7 +53725,6 @@ var LoginView = function LoginView(_ref) {
     Password = _useState4[0],
     setPassword = _useState4[1];
   var handleSubmit = function handleSubmit(event) {
-    // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
     var data = {
       Username: Username,
@@ -53741,9 +53740,9 @@ var LoginView = function LoginView(_ref) {
       return response.json();
     }).then(function (data) {
       console.log("Login response: ", data);
-      if (data.user) {
+      if (data.token) {
         localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.token); // Set the token in localStorage
         onLoggedIn(data.user, data.token);
       } else {
         alert("No such user found.");

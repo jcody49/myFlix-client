@@ -7,14 +7,13 @@ export const LoginView = ({ onLoggedIn }) => {
   const [Password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
-    // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
-
+  
     const data = {
       Username: Username,
       Password: Password,
     };
-
+  
     fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/login`, {
       method: "POST",
       headers: {
@@ -25,9 +24,9 @@ export const LoginView = ({ onLoggedIn }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Login response: ", data);
-        if (data.user) {
+        if (data.token) {
           localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("token", data.token); // Set the token in localStorage
           onLoggedIn(data.user, data.token);
         } else {
           alert("No such user found.");
