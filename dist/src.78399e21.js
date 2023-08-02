@@ -53962,46 +53962,45 @@ var MainView = function MainView() {
     _useState6 = _slicedToArray(_useState5, 2),
     token = _useState6[0],
     setToken = _useState6[1];
+  console.log('Token from localStorage:', token);
   var handleLogout = function handleLogout() {
-    console.log("Welcome");
+    console.log("test");
     setUser(null);
     setToken(null);
     localStorage.clear(); // Clearing token and other user data from localStorage
   };
 
   (0, _react.useEffect)(function () {
-    if (token) {
-      fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies", {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        if (!response.ok) {
-          throw new Error("Unauthorized");
-        }
-        return response.json();
-      }).then(function (data) {
-        var moviesFromApi = data.map(function (movie) {
-          return {
-            _id: movie._id,
-            ImagePath: movie.ImagePath,
-            Title: movie.Title,
-            Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name
-            },
-            Director: {
-              Name: movie.Director.Name
-            },
-            Featured: movie.Featured
-          };
-        });
-        setMovies(moviesFromApi);
-      }).catch(function (error) {
-        console.log("error", error);
-      });
+    if (!token) {
+      return;
     }
-  }, [token, user]);
+    fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies", {
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      var moviesFromApi = data.map(function (movie) {
+        return {
+          _id: movie._id,
+          ImagePath: movie.ImagePath,
+          Title: movie.Title,
+          Description: movie.Description,
+          Genre: {
+            Name: movie.Genre.Name
+          },
+          Director: {
+            Name: movie.Director.Name
+          },
+          Featured: movie.Featured
+        };
+      });
+      setMovies(moviesFromApi);
+    }).catch(function (error) {
+      console.log("error", error);
+    });
+  }, [token]);
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_navigationBar.NavigationBar, {
     user: user,
     onLoggedOut: handleLogout
