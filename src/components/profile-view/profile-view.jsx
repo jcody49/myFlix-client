@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Modal from "react-bootstrap/Modal";
 import { MovieCard } from "../movie-card/movie-card";
+import "./profile-view.scss";
 
 export const ProfileView = ({ movies }) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -72,7 +73,7 @@ export const ProfileView = ({ movies }) => {
 
     return (
         <>
-        <h1>Profile</h1>
+        <h1 className="profile-header">Profile</h1>
         <Row>
             <Col>
                 <h3>Profile Details</h3>
