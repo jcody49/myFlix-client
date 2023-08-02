@@ -5,16 +5,19 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Modal from "react-bootstrap/Modal";
 import { MovieCard } from "../movie-card/movie-card";
-import { ModalHeader } from "react-bootstrap";
 
-export const ProfileView = ({user, token, setUser, movies, handleLogOut}) => {
+export const ProfileView = ({ movies }) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
     const [Username, setUsername] = useState(user.Username);
     const [Password, setPassword] = useState("");
     const [Email, setEmail] = useState(user.Email);
     const [Birthdate, setBirthday] = useState(user.Birthdate);
     const [showModal, setShowModal] = useState(false);
+
     const favoriteMovies = movies.filter((movie) => {
-        return user.FavoriteMovies.includes(movie.id)
+        return user.FavoriteMovies.includes(movie._id)
     });
 
     const handleShowModal = () => setShowModal(true);
@@ -36,7 +39,7 @@ export const ProfileView = ({user, token, setUser, movies, handleLogOut}) => {
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json", 
-                Authorization: "Bearer ${token}"
+                Authorization: `Bearer ${token}`
             }
         }).then((response) => {
             if(response.ok) {
@@ -45,8 +48,10 @@ export const ProfileView = ({user, token, setUser, movies, handleLogOut}) => {
                 alert("Update failed")
             }
         }).then((data) => {
-            localStorage.setItem("user", JSON.stringify(data));
-            setUser(data);
+            if(data !== undefined) {
+                localStorage.setItem("user", JSON.stringify(data));
+                setUser(data);
+            }
         })
     };
 

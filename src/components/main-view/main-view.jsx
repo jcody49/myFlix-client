@@ -3,14 +3,14 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { ProfileView } from "../profile-view/profile-view";
 
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { NavigationBar } from '../navigation-bar/navigation-bar';
-
+import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
@@ -19,7 +19,7 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
 
-  console.log('Token from localStorage:', token);
+  console.log("Token from localStorage:", token);
 
   const handleLogout = () => {
     console.log("test");
@@ -27,8 +27,6 @@ export const MainView = () => {
     setToken(null);
     localStorage.clear(); // Clearing token and other user data from localStorage
   };
-  
-  
 
   useEffect(() => {
     if (!token) {
@@ -37,9 +35,9 @@ export const MainView = () => {
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
-    .then((response) => response.json())
-    .then((data) => {
-      const moviesFromApi = data.map((movie) => {
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
             ImagePath: movie.ImagePath,
@@ -61,13 +59,9 @@ export const MainView = () => {
       });
   }, [token]);
 
-
   return (
     <BrowserRouter>
-      <NavigationBar
-        user={user}
-        onLoggedOut={handleLogout}
-      />
+      <NavigationBar user={user} onLoggedOut={handleLogout} />
       <Row className="justify-content-md-center">
         <Routes>
           <Route
@@ -108,7 +102,7 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} />
+                    <MovieView movies={movies} user={user} />
                   </Col>
                 )}
               </>
@@ -134,9 +128,42 @@ export const MainView = () => {
               </>
             }
           />
+          <Route
+            path="/movies"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <>
+                    {movies.map((movie) => (
+                      <Col className="mb-4" key={movie._id} md={3}>
+                        <MovieCard movie={movie} />
+                      </Col>
+                    ))}
+                  </>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <ProfileView movies={movies} />
+                  </Col>
+                )}
+              </>
+            }
+          />
         </Routes>
       </Row>
     </BrowserRouter>
   );
 };
-
