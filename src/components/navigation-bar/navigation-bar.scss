@@ -1,0 +1,36 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+.custom-navbar {
+  background-color: grey;
+  border: 2px solid rgba(255, 0, 255, 0.8); /* Increase the alpha value to 0.8 for 80% opacity */
+  border-radius: 10px; /* Add border-radius to make corners rounded */
+}
+
+.custom-navbar .navbar-nav .nav-link {
+  color: #FF00FF;
+}
+
+.navbar-logo {
+    width: 150px; 
+}
+  
+.navbar-container {
+    position: relative; // Required for absolute positioning
+  }
+  
+  .navbar-brand-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    width: 70px; // Adjust the size of the logo as needed
+    margin-right: 10px; // Add some space between the logo and text
+  }
+  
+  .navbar-brand {
+    color: fuchsia; // Set the text color to fuchsia
+  }

@@ -54048,7 +54048,13 @@ var ProfileView = function ProfileView(_ref) {
   }, "No"))));
 };
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx"}],"components/navigation-bar/navigation-bar.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx"}],"components/navigation-bar/navigation-bar.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/myFlix-logo.png":[function(require,module,exports) {
+module.exports = "/myFlix-logo.6520c8a4.png";
+},{}],"components/navigation-bar/navigation-bar.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54058,17 +54064,25 @@ exports.NavigationBar = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
+require("./navigation-bar.scss");
+var _myFlixLogo = _interopRequireDefault(require("../../assets/myFlix-logo.png"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+// Import the logo image
+
 var NavigationBar = function NavigationBar(_ref) {
   var user = _ref.user,
     onLoggedOut = _ref.onLoggedOut;
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar, {
-    bg: "light",
+    className: "custom-navbar",
     expand: "lg"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Brand, {
     as: _reactRouterDom.Link,
     to: "/"
-  }, "Movies"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Toggle, {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: _myFlixLogo.default,
+    alt: "My App Logo",
+    className: "navbar-logo"
+  }), /*#__PURE__*/_react.default.createElement("br", null), "Navigation"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Toggle, {
     "aria-controls": "basic-navbar-nav"
   }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Collapse, {
     id: "basic-navbar-nav"
@@ -54085,7 +54099,7 @@ var NavigationBar = function NavigationBar(_ref) {
   }, "Log Out")));
 };
 exports.NavigationBar = NavigationBar;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./navigation-bar.scss":"components/navigation-bar/navigation-bar.scss","../../assets/myFlix-logo.png":"assets/myFlix-logo.png"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
