@@ -14,7 +14,7 @@ export const ProfileView = ({ movies }) => {
     const [Username, setUsername] = useState(user.Username);
     const [Password, setPassword] = useState("");
     const [Email, setEmail] = useState(user.Email);
-    const [Birthdate, setBirthday] = useState(user.Birthdate);
+    const [Birthdate, setBirthdate] = useState(user.Birthdate);
     const [showModal, setShowModal] = useState(false);
 
     const favoriteMovies = movies.filter((movie) => {
@@ -117,7 +117,7 @@ export const ProfileView = ({ movies }) => {
                     <Form.Control
                         type="date"
                         value={Birthdate}
-                        onChange={(e) => setBirthday(e.target.value)}
+                        onChange={(e) => setBirthdate(e.target.value)}
                         required
                     />
                 </Form.Group>

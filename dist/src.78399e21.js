@@ -53941,7 +53941,7 @@ var ProfileView = function ProfileView(_ref) {
   var _useState7 = (0, _react.useState)(user.Birthdate),
     _useState8 = _slicedToArray(_useState7, 2),
     Birthdate = _useState8[0],
-    setBirthday = _useState8[1];
+    setBirthdate = _useState8[1];
   var _useState9 = (0, _react.useState)(false),
     _useState10 = _slicedToArray(_useState9, 2),
     showModal = _useState10[0],
@@ -54036,7 +54036,7 @@ var ProfileView = function ProfileView(_ref) {
     type: "date",
     value: Birthdate,
     onChange: function onChange(e) {
-      return setBirthday(e.target.value);
+      return setBirthdate(e.target.value);
     },
     required: true
   })), /*#__PURE__*/_react.default.createElement(_Button.default, {
