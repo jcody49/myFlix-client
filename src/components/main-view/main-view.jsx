@@ -4,6 +4,8 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
+import moviesImage from "../../assets/movies.png";
+
 
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -13,11 +15,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 
 export const MainView = () => {
+  const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
+  const [filter, setFilter] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   console.log("Token from localStorage:", token);
 
@@ -30,6 +36,7 @@ export const MainView = () => {
 
   useEffect(() => {
     if (!token) {
+      setLoading(false); // If there's no token, set loading to false
       return;
     }
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/movies", {
@@ -53,11 +60,14 @@ export const MainView = () => {
           };
         });
         setMovies(moviesFromApi);
+        setLoading(false); // Set loading to false after fetching the movies
       })
       .catch((error) => {
         console.log("error", error);
+        setLoading(false); // Set loading to false after fetching the movies
       });
-  }, [token]);
+  }, []);
+
 
   return (
     <BrowserRouter>
@@ -69,7 +79,7 @@ export const MainView = () => {
             element={
               <>
                 {user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/profile" />
                 ) : (
                   <Col md={5}>
                     <SignupView />
@@ -97,7 +107,7 @@ export const MainView = () => {
             element={
               <>
                 {!user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/login" />
                 ) : (
                   <Col md={5}>
                     <ProfileView movies={movies} />
@@ -110,14 +120,20 @@ export const MainView = () => {
             path="/movies/:movieId"
             element={
               <>
-                {!user ? (
-                  <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
+                {isLoggedIn ? (
+                  <ProfileView movies={movies} />
                 ) : (
-                  <Col md={8}>
-                    <MovieView movies={movies} user={user} />
-                  </Col>
+                  <>
+                    <Row className="justify-content-center">
+                      <img
+                        src={moviesImage}
+                        alt="Movies"
+                        className="movies-image"
+                        style={{ width: "80%", maxWidth: "400px" }}
+                      />
+                    </Row>
+                    {/* Rest of the code for the MoviesView */}
+                  </>
                 )}
               </>
             }
@@ -128,15 +144,42 @@ export const MainView = () => {
               <>
                 {!user ? (
                   <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
                 ) : (
                   <>
-                    {movies.map((movie) => (
-                      <Col className="mb-4" key={movie._id} md={3}>
-                        <MovieCard movie={movie} />
-                      </Col>
-                    ))}
+                    <Row className="justify-content-center">
+                      <img 
+                      src={moviesImage} 
+                      alt="Movies" 
+                      className="movies-image" 
+                      style={{ width: "80%", maxWidth: "400px"}}
+                      />
+                    </Row>
+                    <Row className="mt-1 mb-2 ms-1 w-100">
+                        <Form.Control
+                        className="text-white"
+                        type="text"
+                        placeholder="Search..."
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        />
+                    </Row>
+                    {loading ? (
+                      <Col>Loading movies...</Col>
+                    ) : movies.length === 0 ? (
+                      <Col>This list is empty!</Col>
+                    ) : (
+                      movies
+                        .filter((movie) =>
+                          movie.Title
+                            .toLowerCase()
+                            .includes(filter.toLowerCase())
+                        )
+                        .map((movie) => (
+                          <Col className="mb-5" key={movie._id} md={4}>
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))
+                    )}
                   </>
                 )}
               </>

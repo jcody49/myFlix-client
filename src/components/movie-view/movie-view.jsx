@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
 
+//<img src={loginImage} alt="Login" className="login-image" />
 export const MovieView = ({ movies, user, setUser }) => {
   const { movieId } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -66,24 +67,32 @@ export const MovieView = ({ movies, user, setUser }) => {
   const movie = movies.find((b) => b._id === movieId);
 
   return (
-    <Card className="mt-1 mb-1 h-100 bg-secondary">
-      <Card.Img variant="top" src={movie.ImagePath} />
-      <Card.Body>
-        <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>Description: {movie.Description}</Card.Text>
-        <Card.Text>Director: {movie.Director.Name}</Card.Text>
-        <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
-      {isFavorite ? (
-        <Button size="sm" onClick={removeFavorite}>Remove from favorites</Button>
-      ) : (
-        <Button size="sm" onClick={addToFavorite}>Add to favorites</Button>
-      )}
-      <br/>
-      <br/>
-      <Link to={"/"}>
-        <Button>Back</Button>
-      </Link>
-      </Card.Body>
-    </Card>
+    <>
+      <Card className="mt-1 mb-1 h-100 bg-secondary text-white">
+        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Body>
+          <Card.Title>{movie.Title}</Card.Title>
+          <Card.Text>Description: {movie.Description}</Card.Text>
+          <Card.Text>Director: {movie.Director.Name}</Card.Text>
+          <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
+          <div className="d-flex justify-content-center mt-5">
+            {isFavorite ? (
+              <Button size="sm" onClick={removeFavorite}>Remove from favorites</Button>
+            ) : (
+              <Button size="sm" onClick={addToFavorite}>Add to favorites</Button>
+            )}
+          </div>
+        <br/>
+        <br/>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <div className="d-flex justify-content-center">
+            <Button variant="secondary">Back</Button>
+          </div>
+        </Link>
+
+
+        </Card.Body>
+      </Card>
+    </>
   )
 };

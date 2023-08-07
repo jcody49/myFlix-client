@@ -10,19 +10,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
-    // Adjust positioning for smaller screens if needed
-    @media (max-width: 768px) {
-      position: absolute;
-      top: 50%;
-      right: 80px; // Adjust this value as needed to center the links
-      transform: translateY(-50%);
-    }
-  }
+    justify-content: center;
+    color: $primary;
+    margin-right: auto;
+    } 
 }
 
+
 .custom-navbar .navbar-nav .nav-link {
-  color: #ffade5;
+  color: rgba(89, 216, 251, 0.68);
 }
 
 .navbar-brand-container {
@@ -51,14 +47,11 @@
   cursor: pointer;
 }
 
-/* On smaller screens, align the logout link vertically */
-@media (max-width: 991.98px) {
-  .navbar-nav {
-    float: none;
-    margin: 0;
-    text-align: right;
-  }
-}
+
+
+
+
+
 
 
 

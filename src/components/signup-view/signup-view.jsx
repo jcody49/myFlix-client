@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import "./signup-view.scss";
+import signupImage from "../../assets/signup.png";
 
 export const SignupView = () => {
   const [Username, setUsername] = useState("");
@@ -35,48 +37,56 @@ export const SignupView = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="signUpFormUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control
-          type="text"
-          value={Username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3"
-        />
-      </Form.Group>
+    <>
+      <img 
+        src={signupImage} 
+        alt="Signup" 
+        className="signup-image d-flex justify-content-center" 
+        style={{ width: "80%", maxWidth: "400px"}} 
+      />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="signUpFormUsername">
+          <Form.Label>Username:</Form.Label>
+          <Form.Control
+            type="text"
+            value={Username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            minLength="3"
+          />
+        </Form.Group>
 
-      <Form.Group controlId="signUpFormPassword">
-        <Form.Label>Password:</Form.Label>
-        <Form.Control
-          type="password"
-          value={Password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Form.Group controlId="signUpFormEmail">
-        <Form.Label>Email:</Form.Label>
-        <Form.Control
-          type="email"
-          value={Email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Form.Group controlId="signUpFormBirthdate">
-        <Form.Label>Birthdate:</Form.Label>
-        <Form.Control
-          type="date"
-          value={Birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+        <Form.Group controlId="signUpFormPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control
+            type="password"
+            value={Password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="signUpFormEmail">
+          <Form.Label>Email:</Form.Label>
+          <Form.Control
+            type="email"
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="signUpFormBirthdate">
+          <Form.Label>Birthdate:</Form.Label>
+          <Form.Control
+            type="date"
+            value={Birthdate}
+            onChange={(e) => setBirthdate(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="mt-3 mb-4 mx-auto d-block">
+          Submit
+        </Button>
+      </Form>
+    </>
   );
 };

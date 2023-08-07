@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Modal from "react-bootstrap/Modal";
 import { MovieCard } from "../movie-card/movie-card";
 import "./profile-view.scss";
+import profileImage from "../../assets/profile.png";
 
 export const ProfileView = ({ movies }) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -73,59 +74,66 @@ export const ProfileView = ({ movies }) => {
 
     return (
         <>
-        <h1 className="profile-header">Profile</h1>
+            <Col className="d-flex justify-content-center">
+                <img 
+                    src={profileImage} 
+                    alt="Profile" 
+                    className="profile-image d-flex justify-content-center"
+                    style={{ width: "80%", maxWidth: "400px"}} 
+                />
+            </Col>
         <Row>
-            <Col>
+            <Col className="text-white">
                 <h3>Profile Details</h3>
                 <div>Username: {user.Username}</div>
                 <div>Email: {user.Email}</div>
             </Col>
-            <Col>
-            <h3>Update your profile</h3>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formUsername">
-                    <Form.Label>Username:</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={Username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                        minLength="5" 
-                    />
-                </Form.Group>
-                <Form.Group controlId="formPassword">
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={Password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        minLength="5"
-                    />
-                </Form.Group>
-                <Form.Group controlId="formEmail">
-                    <Form.Label>Email:</Form.Label>
-                    <Form.Control
-                        type="email"
-                        value={Email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                <Form.Group controlId="formBirthday">
-                    <Form.Label>Birthday:</Form.Label>
-                    <Form.Control
-                        type="date"
-                        value={Birthdate}
-                        onChange={(e) => setBirthdate(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                <Button variant="primary" type="submit">Save changes</Button>
-            </Form>
+            <Col className="text-white">
+                <h3>Update your profile</h3>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="formUsername">
+                        <Form.Label>Username:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={Username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                            minLength="5" 
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formPassword">
+                        <Form.Label>Password:</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={Password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            minLength="5"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formEmail">
+                        <Form.Label>Email:</Form.Label>
+                        <Form.Control
+                            type="email"
+                            value={Email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBirthday">
+                        <Form.Label>Birthday:</Form.Label>
+                        <Form.Control
+                            type="date"
+                            value={Birthdate}
+                            onChange={(e) => setBirthdate(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">Save changes</Button>
+                </Form>
             </Col>
         </Row>
-        <Row>
+        <Row className="text-white">
             <h3>Favorite movies:</h3>
             {favoriteMovies.map((movie) => (
                 <Col className="mb-5" key={movie.id} md={4}>
