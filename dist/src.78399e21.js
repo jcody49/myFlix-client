@@ -53878,7 +53878,7 @@ var SignupView = function SignupView() {
       Username: Username,
       Password: Password,
       Email: Email,
-      Birthday: Birthdate
+      Birthdate: Birthdate
     };
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/users", {
       method: "POST",
@@ -53907,7 +53907,9 @@ var SignupView = function SignupView() {
     onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "signUpFormUsername"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "text-white"
+  }, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "text",
     value: Username,
     onChange: function onChange(e) {
@@ -53917,7 +53919,9 @@ var SignupView = function SignupView() {
     minLength: "3"
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "signUpFormPassword"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "text-white"
+  }, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "password",
     value: Password,
     onChange: function onChange(e) {
@@ -53926,21 +53930,27 @@ var SignupView = function SignupView() {
     required: true
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "signUpFormEmail"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Email:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "text-white"
+  }, "Email:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "email",
     value: Email,
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     },
+    className: "text-white",
     required: true
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "signUpFormBirthdate"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Birthdate:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "text-white"
+  }, "Birthdate:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "date",
     value: Birthdate,
     onChange: function onChange(e) {
       return setBirthdate(e.target.value);
     },
+    className: "text-white",
     required: true
   })), /*#__PURE__*/_react.default.createElement(_Button.default, {
     variant: "primary",
@@ -53981,9 +53991,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var ProfileView = function ProfileView(_ref) {
-  var movies = _ref.movies;
-  var user = JSON.parse(localStorage.getItem("user"));
-  var token = localStorage.getItem("token");
+  var user = _ref.user,
+    token = _ref.token,
+    movies = _ref.movies,
+    onLoggedOut = _ref.onLoggedOut;
   var _useState = (0, _react.useState)(user.Username),
     _useState2 = _slicedToArray(_useState, 2),
     Username = _useState2[0],
@@ -54049,7 +54060,8 @@ var ProfileView = function ProfileView(_ref) {
       }
     }).then(function (response) {
       if (response.ok) {
-        onLogout();
+        console.log("Deletion successful");
+        onLoggedOut();
       } else {
         alert("something went wrong.");
       }
@@ -54065,25 +54077,45 @@ var ProfileView = function ProfileView(_ref) {
       width: "80%",
       maxWidth: "400px"
     }
-  })), /*#__PURE__*/_react.default.createElement(_Row.default, null, /*#__PURE__*/_react.default.createElement(_Col.default, {
+  })), /*#__PURE__*/_react.default.createElement(_Row.default, {
+    style: {
+      position: "relative",
+      top: "-42px"
+    }
+  }, /*#__PURE__*/_react.default.createElement("h6", {
+    className: "d-flex justify-content-center mb-3 text-primary"
+  }, "Welcome to your myFlix profile, ", user.Username, "!")), /*#__PURE__*/_react.default.createElement(_Row.default, {
+    className: "mt-1 mb-3"
+  }, /*#__PURE__*/_react.default.createElement(_Col.default, {
+    className: "text-white ms-n3"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "text-secondary d-flex justify-content-center"
+  }, /*#__PURE__*/_react.default.createElement("h3", null, "Profile Details")), /*#__PURE__*/_react.default.createElement("div", null, "Username: ", user.Username), /*#__PURE__*/_react.default.createElement("div", null, "Email: ", user.Email)), /*#__PURE__*/_react.default.createElement(_Col.default, {
     className: "text-white"
-  }, /*#__PURE__*/_react.default.createElement("h3", null, "Profile Details"), /*#__PURE__*/_react.default.createElement("div", null, "Username: ", user.Username), /*#__PURE__*/_react.default.createElement("div", null, "Email: ", user.Email)), /*#__PURE__*/_react.default.createElement(_Col.default, {
-    className: "text-white"
-  }, /*#__PURE__*/_react.default.createElement("h3", null, "Update your profile"), /*#__PURE__*/_react.default.createElement(_Form.default, {
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "text-secondary d-flex justify-content-center"
+  }, /*#__PURE__*/_react.default.createElement("h3", null, "Update your profile")), /*#__PURE__*/_react.default.createElement(_Form.default, {
     onSubmit: handleSubmit
   }, /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "formUsername"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "profile-subheader-2"
+  }, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "text",
     value: Username,
     onChange: function onChange(e) {
       return setUsername(e.target.value);
     },
     required: true,
-    minLength: "5"
+    minLength: "5",
+    style: {
+      color: "white"
+    }
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "formPassword"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "profile-subheader-2"
+  }, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "password",
     value: Password,
     onChange: function onChange(e) {
@@ -54093,61 +54125,132 @@ var ProfileView = function ProfileView(_ref) {
     minLength: "5"
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "formEmail"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Email:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "profile-subheader-2"
+  }, "Email:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "email",
     value: Email,
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     },
-    required: true
+    required: true,
+    style: {
+      color: "white"
+    }
   })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
     controlId: "formBirthday"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Birthday:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    className: "profile-subheader-2"
+  }, "Birth Date:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "date",
     value: Birthdate,
     onChange: function onChange(e) {
       return setBirthdate(e.target.value);
     },
-    required: true
+    required: true,
+    style: {
+      color: "white"
+    }
   })), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    className: "mt-2 d-flex justify-content-center mx-auto",
     variant: "primary",
     type: "submit"
-  }, "Save changes")))), /*#__PURE__*/_react.default.createElement(_Row.default, {
+  }, "Save changes")))), /*#__PURE__*/_react.default.createElement(_Row.default, null, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "text-secondary d-flex justify-content-center mt-5 mb-3"
+  }, "Favorite movies:"), favoriteMovies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, {
+    className: "mb-5 d-flex justify-content-center"
+  }, /*#__PURE__*/_react.default.createElement("p", {
     className: "text-white"
-  }, /*#__PURE__*/_react.default.createElement("h3", null, "Favorite movies:"), favoriteMovies.map(function (movie) {
+  }, "Favorite movie list is currently empty.")) : favoriteMovies.map(function (movie) {
     return /*#__PURE__*/_react.default.createElement(_Col.default, {
       className: "mb-5",
-      key: movie.id,
+      key: movie._id,
       md: 4
     }, /*#__PURE__*/_react.default.createElement(_movieCard.MovieCard, {
       movie: movie
     }));
-  })), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "primary",
-    onClick: handleShowModal
-  }, "Delete my account"), /*#__PURE__*/_react.default.createElement(_Modal.default, {
-    show: showModal,
-    onHide: handleCloseModal
-  }, /*#__PURE__*/_react.default.createElement(_Modal.default.Header, {
-    closeButton: true
-  }, /*#__PURE__*/_react.default.createElement(_Modal.default.Title, null, "Delete account")), /*#__PURE__*/_react.default.createElement(_Modal.default.Body, null, "Are you sure you want to delete your account permanantly?"), /*#__PURE__*/_react.default.createElement(_Modal.default.Footer, null, /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "primary",
-    onClick: handleDeleteUser
-  }, "Yes"), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "secondary",
-    onClick: handleCloseModal
-  }, "No"))));
+  })));
 };
 exports.ProfileView = ProfileView;
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","./profile-view.scss":"components/profile-view/profile-view.scss","../../assets/profile.png":"assets/profile.png"}],"assets/movies.png":[function(require,module,exports) {
 module.exports = "/movies.2b355d1e.png";
+},{}],"assets/logo.png":[function(require,module,exports) {
+module.exports = "/logo.e9a9c890.png";
 },{}],"components/navigation-bar/navigation-bar.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
 },{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/myFlix-logo.png":[function(require,module,exports) {
 module.exports = "/myFlix-logo.6520c8a4.png";
-},{}],"components/navigation-bar/navigation-bar.jsx":[function(require,module,exports) {
+},{}],"components/delete-account-confirmation/delete-account-confirmation.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DeleteAccountConfirmation = void 0;
+var _react = _interopRequireWildcard(require("react"));
+var _reactBootstrap = require("react-bootstrap");
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var DeleteAccountConfirmation = function DeleteAccountConfirmation(_ref) {
+  var user = _ref.user,
+    token = _ref.token,
+    onLoggedOut = _ref.onLoggedOut;
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    showModal = _useState2[0],
+    setShowModal = _useState2[1];
+  console.log("Token from localStorage:", token);
+  var handleShowModal = function handleShowModal() {
+    return setShowModal(true);
+  };
+  var handleCloseModal = function handleCloseModal() {
+    return setShowModal(false);
+  };
+  var handleDeleteUser = function handleDeleteUser() {
+    fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/users/".concat(user.Username), {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        console.log('Account deleted successfully');
+        onLoggedOut(); // Log out the user after successful deletion
+      } else {
+        console.error('Failed to delete account');
+      }
+    }).catch(function (error) {
+      console.error('Error during account deletion:', error);
+    }).finally(function () {
+      handleCloseModal(); // Close the modal whether deletion was successful or not
+    });
+  };
+
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
+    onClick: handleShowModal
+  }, "Delete Account"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Modal, {
+    show: showModal,
+    onHide: handleCloseModal
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Modal.Header, {
+    closeButton: true
+  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Modal.Title, null, "Delete account")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Modal.Body, null, "Are you sure you want to delete your account permanently?"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Modal.Footer, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    variant: "primary",
+    onClick: handleDeleteUser
+  }, "Yes"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+    variant: "secondary",
+    onClick: handleCloseModal
+  }, "No"))));
+};
+exports.DeleteAccountConfirmation = DeleteAccountConfirmation;
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"components/navigation-bar/navigation-bar.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54159,12 +54262,15 @@ var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 require("./navigation-bar.scss");
 var _myFlixLogo = _interopRequireDefault(require("../../assets/myFlix-logo.png"));
+var _deleteAccountConfirmation = require("../delete-account-confirmation/delete-account-confirmation");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // Import the logo image
 
 var NavigationBar = function NavigationBar(_ref) {
   var user = _ref.user,
+    token = _ref.token,
     onLoggedOut = _ref.onLoggedOut;
+  console.log("token:", token);
   return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar, {
     className: "custom-navbar mb-3",
     expand: "lg"
@@ -54176,37 +54282,34 @@ var NavigationBar = function NavigationBar(_ref) {
     src: _myFlixLogo.default,
     alt: "My App Logo",
     className: "navbar-logo"
-  })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Brand, {
-    as: _reactRouterDom.Link,
-    to: "/"
-  }), user ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, {
-    className: "logout-link"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
-    onClick: onLoggedOut
-  }, "Log Out"))) : /*#__PURE__*/_react.default.createElement("div", {
-    className: "d-flex login-signup-links"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
-    as: _reactRouterDom.Link,
-    to: "/login"
-  }, "Login"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
-    as: _reactRouterDom.Link,
-    to: "/signup"
-  }, "Signup"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Toggle, {
+  }))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Toggle, {
     "aria-controls": "basic-navbar-nav"
   }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Collapse, {
     id: "basic-navbar-nav"
   }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav, {
-    className: "me-auto"
-  }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
+    className: "d-flex justify-content-center"
+  }, user ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
     as: _reactRouterDom.Link,
     to: "/movies"
   }, "Movies"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
     as: _reactRouterDom.Link,
     to: "/profile"
-  }, "Profile")))));
+  }, "Profile"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
+    onClick: onLoggedOut
+  }, "Log Out"), /*#__PURE__*/_react.default.createElement(_deleteAccountConfirmation.DeleteAccountConfirmation, {
+    user: user,
+    token: token,
+    onLoggedOut: onLoggedOut
+  }))) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
+    as: _reactRouterDom.Link,
+    to: "/login"
+  }, "Login"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Nav.Link, {
+    as: _reactRouterDom.Link,
+    to: "/signup"
+  }, "Signup"))))));
 };
 exports.NavigationBar = NavigationBar;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./navigation-bar.scss":"components/navigation-bar/navigation-bar.scss","../../assets/myFlix-logo.png":"assets/myFlix-logo.png"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./navigation-bar.scss":"components/navigation-bar/navigation-bar.scss","../../assets/myFlix-logo.png":"assets/myFlix-logo.png","../delete-account-confirmation/delete-account-confirmation":"components/delete-account-confirmation/delete-account-confirmation.jsx"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54220,6 +54323,7 @@ var _loginView = require("../login-view/login-view");
 var _signupView = require("../signup-view/signup-view");
 var _profileView = require("../profile-view/profile-view");
 var _movies = _interopRequireDefault(require("../../assets/movies.png"));
+var _logo = _interopRequireDefault(require("../../assets/logo.png"));
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
@@ -54262,8 +54366,12 @@ var MainView = function MainView() {
     _useState12 = _slicedToArray(_useState11, 2),
     isLoggedIn = _useState12[0],
     setIsLoggedIn = _useState12[1];
+  var _useState13 = (0, _react.useState)(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    selectedGenre = _useState14[0],
+    setSelectedGenre = _useState14[1];
   console.log("Token from localStorage:", token);
-  var handleLogout = function handleLogout() {
+  var onLoggedOut = function onLoggedOut() {
     console.log("test");
     setUser(null);
     setToken(null);
@@ -54304,15 +54412,16 @@ var MainView = function MainView() {
       setLoading(false); // Set loading to false after fetching the movies
     });
   }, []);
-  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_navigationBar.NavigationBar, {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_navigationBar.NavigationBar, {
     user: user,
-    onLoggedOut: handleLogout
+    token: token,
+    onLoggedOut: onLoggedOut
   }), /*#__PURE__*/_react.default.createElement(_Row.default, {
     className: "justify-content-md-center"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/signup",
     element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
-      to: "/profile"
+      to: "/"
     }) : /*#__PURE__*/_react.default.createElement(_Col.default, {
       md: 5
     }, /*#__PURE__*/_react.default.createElement(_signupView.SignupView, null)))
@@ -54323,40 +54432,54 @@ var MainView = function MainView() {
     }) : /*#__PURE__*/_react.default.createElement(_Col.default, {
       md: 5
     }, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
-      onLoggedIn: function onLoggedIn(user) {
-        return setUser(user);
+      onLoggedIn: function onLoggedIn(user, token) {
+        setUser(user);
+        setToken(token);
       }
     })))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/profile",
     element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
-      to: "/login"
-    }) : /*#__PURE__*/_react.default.createElement(_Col.default, {
-      md: 5
-    }, /*#__PURE__*/_react.default.createElement(_profileView.ProfileView, {
-      movies: movies
+      to: "/login",
+      replace: true
+    }) : /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_profileView.ProfileView, {
+      user: user,
+      token: token,
+      setUser: setUser,
+      movies: movies,
+      onLoggedOut: onLoggedOut
     })))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/movies/:movieId",
-    element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isLoggedIn ? /*#__PURE__*/_react.default.createElement(_profileView.ProfileView, {
-      movies: movies
-    }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Row.default, {
-      className: "justify-content-center"
-    }, /*#__PURE__*/_react.default.createElement("img", {
-      src: _movies.default,
-      alt: "Movies",
-      className: "movies-image",
-      style: {
-        width: "80%",
-        maxWidth: "400px"
-      }
-    }))))
+    element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
+      to: "/login",
+      replace: true
+    }) : movies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "This list is empty!") : /*#__PURE__*/_react.default.createElement(_Col.default, {
+      md: 8
+    }, /*#__PURE__*/_react.default.createElement(_movieView.MovieView, {
+      movies: movies,
+      user: user,
+      setUser: setUser,
+      token: token
+    })))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/",
     element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
       to: "/login",
       replace: true
-    }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Row.default, {
+    }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_profileView.ProfileView, {
+      user: user,
+      token: token,
+      setUser: setUser,
+      movies: movies,
+      onLoggedOut: onLoggedOut
+    }))))
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/movies",
+    element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
+      to: "/login",
+      replace: true
+    }) : movies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "The list is empty!") : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Row.default, {
       className: "justify-content-center"
     }, /*#__PURE__*/_react.default.createElement("img", {
       src: _movies.default,
@@ -54376,8 +54499,11 @@ var MainView = function MainView() {
       onChange: function onChange(e) {
         return setFilter(e.target.value);
       }
-    })), loading ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "Loading movies...") : movies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "This list is empty!") : movies.filter(function (movie) {
-      return movie.Title.toLowerCase().includes(filter.toLowerCase());
+    })), loading ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "Loading movies...") : movies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "This list is empty!") : movies.sort(function (a, b) {
+      return a.Title.localeCompare(b.Title);
+    }) // Sort movies alphabetically
+    .filter(function (movie) {
+      return movie.Title.toLowerCase().includes(filter.toLowerCase()) && (!selectedGenre || movie.Genre.Name === selectedGenre);
     }).map(function (movie) {
       return /*#__PURE__*/_react.default.createElement(_Col.default, {
         className: "mb-5",
@@ -54387,24 +54513,36 @@ var MainView = function MainView() {
         movie: movie
       }));
     })))
-  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/movies",
-    element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
-      to: "/login",
-      replace: true
-    }) : movies.length === 0 ? /*#__PURE__*/_react.default.createElement(_Col.default, null, "The list is empty!") : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, movies.map(function (movie) {
-      return /*#__PURE__*/_react.default.createElement(_Col.default, {
-        className: "mb-4",
-        key: movie._id,
-        md: 3
-      }, /*#__PURE__*/_react.default.createElement(_movieCard.MovieCard, {
-        movie: movie
-      }));
-    })))
-  }))));
+  })))), /*#__PURE__*/_react.default.createElement("footer", {
+    className: "footer"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "d-flex justify-content-center align-items-center"
+  }, /*#__PURE__*/_react.default.createElement("span", {
+    className: "text-white mb-1"
+  }, "This is a ", /*#__PURE__*/_react.default.createElement("a", {
+    href: "https://jcody49.github.io/Portfolio-Site",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: _logo.default,
+    alt: "Logo",
+    className: "logo ms-1 me-1",
+    style: {
+      width: '82px',
+      height: '44px'
+    }
+  })), " web application.")), /*#__PURE__*/_react.default.createElement("p", {
+    className: "d-flex justify-content-center align-items-center mb-4"
+  }, /*#__PURE__*/_react.default.createElement("span", {
+    className: "text-white"
+  }, "For more sweet coding-projects..."), /*#__PURE__*/_react.default.createElement("a", {
+    href: "https://github.com/jcody49",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "Visit my GitHub"))));
 };
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../signup-view/signup-view":"components/signup-view/signup-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../../assets/movies.png":"assets/movies.png","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../navigation-bar/navigation-bar":"components/navigation-bar/navigation-bar.jsx"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../signup-view/signup-view":"components/signup-view/signup-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../../assets/movies.png":"assets/movies.png","../../assets/logo.png":"assets/logo.png","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../navigation-bar/navigation-bar":"components/navigation-bar/navigation-bar.jsx"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
@@ -54455,7 +54593,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52915" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54162" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

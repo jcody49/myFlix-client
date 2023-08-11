@@ -5,6 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import moviesImage from "../../assets/movies.png";
+import logo from "../../assets/logo.png";
 
 
 import Button from "react-bootstrap/Button";
@@ -23,11 +24,13 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken || null);
   const [filter, setFilter] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState("");
+
 
 
   console.log("Token from localStorage:", token);
 
-  const handleLogout = () => {
+  const onLoggedOut = () => {
     console.log("test");
     setUser(null);
     setToken(null);
@@ -70,143 +73,187 @@ export const MainView = () => {
 
 
   return (
+    <>
     <BrowserRouter>
-      <NavigationBar user={user} onLoggedOut={handleLogout} />
+      <NavigationBar user={user} token={token} onLoggedOut={onLoggedOut} />
       <Row className="justify-content-md-center">
-        <Routes>
-          <Route
-            path="/signup"
-            element={
-              <>
-                {user ? (
-                  <Navigate to="/profile" />
-                ) : (
-                  <Col md={5}>
-                    <SignupView />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <>
-                {user ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Col md={5}>
-                    <LoginView onLoggedIn={(user) => setUser(user)} />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/login" />
-                ) : (
-                  <Col md={5}>
-                    <ProfileView movies={movies} />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/movies/:movieId"
-            element={
-              <>
-                {isLoggedIn ? (
-                  <ProfileView movies={movies} />
-                ) : (
-                  <>
-                    <Row className="justify-content-center">
-                      <img
-                        src={moviesImage}
-                        alt="Movies"
-                        className="movies-image"
-                        style={{ width: "80%", maxWidth: "400px" }}
+        
+          <Routes>
+            <Route
+              path="/signup"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <SignupView />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+
+            <Route
+              path="/login"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <LoginView onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                        }} 
                       />
-                    </Row>
-                    {/* Rest of the code for the MoviesView */}
-                  </>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/login" replace />
-                ) : (
-                  <>
-                    <Row className="justify-content-center">
-                      <img 
-                      src={moviesImage} 
-                      alt="Movies" 
-                      className="movies-image" 
-                      style={{ width: "80%", maxWidth: "400px"}}
+                    </Col>
+                  )}
+                </>
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace/>
+                  ) : (
+                    <Col>
+                      <ProfileView
+                        user={user}
+                        token={token}
+                        setUser={setUser}
+                        movies={movies}
+                        onLoggedOut={onLoggedOut}
                       />
-                    </Row>
-                    <Row className="mt-1 mb-2 ms-1 w-100">
-                        <Form.Control
-                        className="text-white"
-                        type="text"
-                        placeholder="Search..."
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
+                    </Col>
+                  )}
+                </>
+              }
+            />
+
+            <Route
+              path="/movies/:movieId"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>This list is empty!</Col>
+                  ) : (
+                    <Col md={8} >
+                      <MovieView
+                        movies={movies}
+                        user={user}
+                        setUser={setUser}
+                        token={token}
+                      />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : (
+                    <>
+                      <Col>
+                        <ProfileView
+                          user={user}
+                          token={token}
+                          setUser={setUser}
+                          movies={movies}
+                          onLoggedOut={onLoggedOut}
                         />
-                    </Row>
-                    {loading ? (
-                      <Col>Loading movies...</Col>
-                    ) : movies.length === 0 ? (
-                      <Col>This list is empty!</Col>
-                    ) : (
-                      movies
+                      </Col>  
+                    </>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <>
+                      <Row className="justify-content-center">
+                        <img
+                          src={moviesImage}
+                          alt="Movies"
+                          className="movies-image"
+                          style={{ width: "80%", maxWidth: "400px" }}
+                        />
+                      </Row>
+                      <Row className="mt-1 mb-2 ms-1 w-100">
+                        <Form.Control
+                          className="text-white"
+                          type="text"
+                          placeholder="Search..."
+                          value={filter}
+                          onChange={(e) => setFilter(e.target.value)}
+                        />
+                        
+                      </Row>
+                      {loading ? (
+                        <Col>Loading movies...</Col>
+                      ) : movies.length === 0 ? (
+                        <Col>This list is empty!</Col>
+                      ) : (
+                        movies
+                        .sort((a, b) => a.Title.localeCompare(b.Title)) // Sort movies alphabetically
                         .filter((movie) =>
-                          movie.Title
-                            .toLowerCase()
-                            .includes(filter.toLowerCase())
+                          movie.Title.toLowerCase().includes(filter.toLowerCase()) &&
+                          (!selectedGenre || movie.Genre.Name === selectedGenre)
                         )
                         .map((movie) => (
                           <Col className="mb-5" key={movie._id} md={4}>
                             <MovieCard movie={movie} />
                           </Col>
                         ))
-                    )}
-                  </>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/movies"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
-                ) : (
-                  <>
-                    {movies.map((movie) => (
-                      <Col className="mb-4" key={movie._id} md={3}>
-                        <MovieCard movie={movie} />
-                      </Col>
-                    ))}
-                  </>
-                )}
-              </>
-            }
-          />
-        </Routes>
+                      )}
+                    </>
+                  )}
+                </>
+              }
+            />
+            
+          </Routes>
+        
       </Row>
     </BrowserRouter>
+    <footer className="footer">
+      <p className='d-flex justify-content-center align-items-center'>
+        <span className='text-white mb-1'>
+          This is a <a href="https://jcody49.github.io/Portfolio-Site" target="_blank" rel="noopener noreferrer">
+            <img src={logo} alt="Logo" className="logo ms-1 me-1" style={{ width: '82px', height: '44px' }} />
+          </a> web application.
+        </span>
+      </p>
+      <p className='d-flex justify-content-center align-items-center mb-4'>
+        <span className='text-white'>
+          For more sweet coding-projects...
+        </span>  
+        <a
+          href="https://github.com/jcody49"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit my GitHub
+        </a>
+      </p>
+    </footer>
+
+  </>
   );
 };

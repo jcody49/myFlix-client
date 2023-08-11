@@ -42883,6 +42883,14 @@ textarea.form-control-lg {
   padding-bottom: 3%;
   font-size: 350%;
 }
+
+.profile-subheader {
+  color: rgba(89, 216, 251, 0.6784313725);
+}
+
+.profile-subheader-2 {
+  color: #ffade5;
+}
 @charset "UTF-8";
 /*!
  * Bootstrap  v5.2.0 (https://getbootstrap.com/)

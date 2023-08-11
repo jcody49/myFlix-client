@@ -8,69 +8,66 @@ import { MovieCard } from "../movie-card/movie-card";
 import "./profile-view.scss";
 import profileImage from "../../assets/profile.png";
 
-export const ProfileView = ({ movies }) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = localStorage.getItem("token");
+export const ProfileView = ({ user, token, movies, onLoggedOut }) => {
+  const [Username, setUsername] = useState(user.Username);
+  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState(user.Email);
+  const [Birthdate, setBirthdate] = useState(user.Birthdate);
+  const [showModal, setShowModal] = useState(false);
 
-    const [Username, setUsername] = useState(user.Username);
-    const [Password, setPassword] = useState("");
-    const [Email, setEmail] = useState(user.Email);
-    const [Birthdate, setBirthdate] = useState(user.Birthdate);
-    const [showModal, setShowModal] = useState(false);
+  const favoriteMovies = movies.filter((movie) => {
+    return user.FavoriteMovies.includes(movie._id)
+  });
 
-    const favoriteMovies = movies.filter((movie) => {
-        return user.FavoriteMovies.includes(movie._id)
-    });
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
-    const handleShowModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        const data = {
-            Username: Username,
-            Password: Password,
-            Email: Email,
-            Birthdate: Birthdate
-        };
-
-
-        fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}`, {
-            method: "PUT",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json", 
-                Authorization: `Bearer ${token}`
-            }
-        }).then((response) => {
-            if(response.ok) {
-                return response.json()
-            } else {
-                alert("Update failed")
-            }
-        }).then((data) => {
-            if(data !== undefined) {
-                localStorage.setItem("user", JSON.stringify(data));
-                setUser(data);
-            }
-        })
+    const data = {
+      Username: Username,
+      Password: Password,
+      Email: Email,
+      Birthdate: Birthdate
     };
 
-    const handleDeleteUser = () => {
-        fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then((response) => {
-            if (response.ok) {
-                onLogout();
-            } else {
-                alert("something went wrong.")
-            }
-        })
-    }
+    fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        alert("Update failed")
+      }
+    }).then((data) => {
+      if(data !== undefined) {
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
+      }
+    })
+  };
+
+  const handleDeleteUser = () => {
+    fetch(`https://myflixmovieapp-3df5d197457c.herokuapp.com/users/${user.Username}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      if (response.ok) {
+        console.log("Deletion successful");
+        onLoggedOut();
+      } else {
+        alert("something went wrong.")
+      }
+    })
+  }
 
     return (
         <>
@@ -81,79 +78,87 @@ export const ProfileView = ({ movies }) => {
                     className="profile-image d-flex justify-content-center"
                     style={{ width: "80%", maxWidth: "400px"}} 
                 />
+                
             </Col>
-        <Row>
-            <Col className="text-white">
-                <h3>Profile Details</h3>
+            <Row 
+                style={{ position: "relative", top: "-42px" }}>
+                <h6 className="d-flex justify-content-center mb-3 text-primary">
+                    Welcome to your myFlix profile, {user.Username}!
+                </h6>
+            </Row>
+
+            <Row className="mt-1 mb-3">
+                <Col className="text-white ms-n3">
+                <div 
+                    className="text-secondary d-flex justify-content-center">
+                    <h3>Profile Details</h3>
+                </div>
                 <div>Username: {user.Username}</div>
                 <div>Email: {user.Email}</div>
-            </Col>
-            <Col className="text-white">
-                <h3>Update your profile</h3>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formUsername">
-                        <Form.Label>Username:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={Username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            minLength="5" 
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formPassword">
-                        <Form.Label>Password:</Form.Label>
-                        <Form.Control
-                            type="password"
-                            value={Password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            minLength="5"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Email:</Form.Label>
-                        <Form.Control
-                            type="email"
-                            value={Email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formBirthday">
-                        <Form.Label>Birthday:</Form.Label>
-                        <Form.Control
-                            type="date"
-                            value={Birthdate}
-                            onChange={(e) => setBirthdate(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">Save changes</Button>
-                </Form>
-            </Col>
-        </Row>
-        <Row className="text-white">
-            <h3>Favorite movies:</h3>
-            {favoriteMovies.map((movie) => (
-                <Col className="mb-5" key={movie.id} md={4}>
-                    <MovieCard movie={movie}></MovieCard>
                 </Col>
-            ))}
-        </Row>
-        <Button variant="primary" onClick={handleShowModal}>
-            Delete my account
-        </Button>
-        <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Header closeButton>
-                <Modal.Title>Delete account</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Are you sure you want to delete your account permanantly?</Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" onClick={handleDeleteUser}>Yes</Button>
-                <Button variant="secondary" onClick={handleCloseModal}>No</Button>
-            </Modal.Footer>
-        </Modal>
+                <Col className="text-white">
+                    <div className="text-secondary d-flex justify-content-center"><h3>Update your profile</h3></div>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group controlId="formUsername">
+                            <Form.Label className="profile-subheader-2">Username:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={Username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                                minLength="5" 
+                                style={{ color: "white" }}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formPassword">
+                            <Form.Label className="profile-subheader-2">Password:</Form.Label>
+                            <Form.Control
+                                type="password"
+                                value={Password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                minLength="5"
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formEmail">
+                            <Form.Label className="profile-subheader-2">Email:</Form.Label>
+                            <Form.Control
+                                type="email"
+                                value={Email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                style={{ color: "white" }}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formBirthday">
+                            <Form.Label className="profile-subheader-2">Birth Date:</Form.Label>
+                            <Form.Control
+                                type="date"
+                                value={Birthdate}
+                                onChange={(e) => setBirthdate(e.target.value)}
+                                required
+                                style={{ color: "white" }}
+                            />
+                        </Form.Group>
+                        <Button className="mt-2 d-flex justify-content-center mx-auto"variant="primary" type="submit">Save changes</Button>
+                    </Form>
+                </Col>
+            </Row>
+            <Row>
+                <h3 className="text-secondary d-flex justify-content-center mt-5 mb-3">Favorite movies:</h3>
+                {favoriteMovies.length === 0 ? (
+                    <Col className="mb-5 d-flex justify-content-center">
+                    <p className="text-white">Favorite movie list is currently empty.</p>
+                    </Col>
+                ) : (
+                    favoriteMovies.map((movie) => (
+                    <Col className="mb-5" key={movie._id} md={4}>
+                        <MovieCard movie={movie}></MovieCard>
+                    </Col>
+                    ))
+                )}
+            </Row>
+           
         </>
     )
 }

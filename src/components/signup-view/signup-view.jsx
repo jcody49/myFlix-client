@@ -17,7 +17,7 @@ export const SignupView = () => {
       Username: Username,
       Password: Password,
       Email: Email,
-      Birthday: Birthdate
+      Birthdate: Birthdate
     };
 
     fetch("https://myflixmovieapp-3df5d197457c.herokuapp.com/users", {
@@ -46,7 +46,7 @@ export const SignupView = () => {
       />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="signUpFormUsername">
-          <Form.Label>Username:</Form.Label>
+          <Form.Label className="text-white">Username:</Form.Label>
           <Form.Control
             type="text"
             value={Username}
@@ -57,7 +57,7 @@ export const SignupView = () => {
         </Form.Group>
 
         <Form.Group controlId="signUpFormPassword">
-          <Form.Label>Password:</Form.Label>
+          <Form.Label className="text-white">Password:</Form.Label>
           <Form.Control
             type="password"
             value={Password}
@@ -66,20 +66,22 @@ export const SignupView = () => {
           />
         </Form.Group>
         <Form.Group controlId="signUpFormEmail">
-          <Form.Label>Email:</Form.Label>
+          <Form.Label className="text-white">Email:</Form.Label>
           <Form.Control
             type="email"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
+            className="text-white"
             required
           />
         </Form.Group>
         <Form.Group controlId="signUpFormBirthdate">
-          <Form.Label>Birthdate:</Form.Label>
+          <Form.Label className="text-white">Birthdate:</Form.Label>
           <Form.Control
             type="date"
             value={Birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
+            className="text-white"
             required
           />
         </Form.Group>
