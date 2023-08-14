@@ -7,8 +7,6 @@ import { ProfileView } from "../profile-view/profile-view";
 import moviesImage from "../../assets/movies.png";
 import logo from "../../assets/logo.png";
 
-
-import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
@@ -25,6 +23,7 @@ export const MainView = () => {
   const [filter, setFilter] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [moviesLoaded, setMoviesLoaded] = useState(false);
 
 
 
@@ -63,15 +62,16 @@ export const MainView = () => {
           };
         });
         setMovies(moviesFromApi);
+        setMoviesLoaded(true);
         setLoading(false); // Set loading to false after fetching the movies
       })
       .catch((error) => {
         console.log("error", error);
         setLoading(false); // Set loading to false after fetching the movies
       });
-  }, []);
+  }, [token]);
 
-
+  
   return (
     <>
     <BrowserRouter>
@@ -133,7 +133,7 @@ export const MainView = () => {
                 </>
               }
             />
-
+            
             <Route
               path="/movies/:movieId"
               element={
@@ -183,7 +183,8 @@ export const MainView = () => {
                 <>
                   {!user ? (
                     <Navigate to="/login" replace />
-                  ) : movies.length === 0 ? (
+                  ) : 
+                    movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
                     <>
@@ -232,26 +233,29 @@ export const MainView = () => {
         
       </Row>
     </BrowserRouter>
-    <footer className="footer">
+    <footer className="footer mt-5">
       <p className='d-flex justify-content-center align-items-center'>
-        <span className='text-white mb-1'>
+        <span className='text-secondary' style={{ fontSize: '11px' }}>
           This is a <a href="https://jcody49.github.io/Portfolio-Site" target="_blank" rel="noopener noreferrer">
-            <img src={logo} alt="Logo" className="logo ms-1 me-1" style={{ width: '82px', height: '44px' }} />
+            <img src={logo} alt="Logo" className="logo ms-1 me-1" style={{ width: '55px', height: '26px' }} />
           </a> web application.
         </span>
       </p>
-      <p className='d-flex justify-content-center align-items-center mb-4'>
-        <span className='text-white'>
+      <p className='d-flex justify-content-center align-items-center mb-1'>
+        <span className='text-secondary' style={{ position: "relative", top: "-18px", fontSize: '11px' }}>
           For more sweet coding-projects...
         </span>  
-        <a
-          href="https://github.com/jcody49"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Visit my GitHub
-        </a>
       </p>
+      <div className='d-flex justify-content-center align-items-center mb-4'>
+        <a
+            href="https://github.com/jcody49"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ position: "relative", top: "-18px", fontSize: '11px' }}
+          >
+            Visit my GitHub
+        </a>
+      </div>
     </footer>
 
   </>

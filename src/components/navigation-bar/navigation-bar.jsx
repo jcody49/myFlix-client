@@ -8,7 +8,7 @@ import { DeleteAccountConfirmation } from "../delete-account-confirmation/delete
 export const NavigationBar = ({ user, token, onLoggedOut }) => {
 console.log("token:", token)
   return (
-    <Navbar className="custom-navbar mb-3" expand="lg">
+    <Navbar className="custom-navbar" expand="lg">
     <Container>
       <div className="navbar-brand-container">
         <Link to="/profile">
@@ -18,34 +18,38 @@ console.log("token:", token)
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="d-flex justify-content-center">
+        <Nav className="d-flex justify-content-end">
           {user ? (
             <>
-              <Nav.Link as={Link} to="/movies">
+              <Nav.Link className="d-flex justify-content-end" as={Link} to="/movies">
                 Movies
               </Nav.Link>
-              <Nav.Link as={Link} to="/profile">
+              <Nav.Link className="d-flex justify-content-end" as={Link} to="/profile">
                 Profile
               </Nav.Link>
-              <Nav>
-                <Nav.Link onClick={onLoggedOut}>
-                  Log Out
+              
+                <Nav>
+                <Nav.Link onClick={onLoggedOut} >
+                  <div className="d-flex justify-content-end">Log Out</div>
                 </Nav.Link>
-                
+                </Nav>
+               
                   <DeleteAccountConfirmation
+                    className="delete-account-modal d-flex justify-content-end"
                     user={user}
                     token={token}
                     onLoggedOut={onLoggedOut}
+                    
                   />
-              </Nav>
+                
               
             </>
           ) : (
             <>
-              <Nav.Link as={Link} to="/login">
+              <Nav.Link className="d-flex justify-content-end" as={Link} to="/login">
                 Login
               </Nav.Link>
-              <Nav.Link as={Link} to="/signup">
+              <Nav.Link className="d-flex justify-content-end" as={Link} to="/signup">
                 Signup
               </Nav.Link>
             </>

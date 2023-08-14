@@ -19,6 +19,7 @@
 
 .custom-navbar .navbar-nav .nav-link {
   color: rgba(89, 216, 251, 0.68);
+  justify-content: right;
 }
 
 .navbar-brand-container {
@@ -35,23 +36,33 @@
   color: white; // Set the text color to white
 }
 
-/* Add styles to float the navigation links to the right */
-.navbar-nav {
-  float: right;
-  margin-right: 20px;
+
+
+.basic-navbar-nav {
+  justify-content: right;
 }
 
-/* Adjust the style for the logout link */
-.navbar-nav .nav-link {
-  color: white;
-  cursor: pointer;
+.delete-account-modal {
+  justify-content: right;
+}
+
+.nav-link {
+  display: flex;
+  justify-content: right;
 }
 
 
+.nav-link {
+  justify-content: flex-end !important;
+}
 
 
+.navbar-expand-lg .navbar-nav {
+  margin: auto; /* This will center-align the links horizontally */
+  text-align: center; /* This helps center-align the individual link items */
+}
 
-
-
-
-
+/* Optional: If you want to adjust the space between the nav items */
+.navbar-expand-lg .navbar-nav .nav-item {
+  margin: 0 10px; /* Adjust the margins as needed */
+}

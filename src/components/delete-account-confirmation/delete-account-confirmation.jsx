@@ -5,7 +5,7 @@ export const DeleteAccountConfirmation = ({ user, token, onLoggedOut }) => {
     const [showModal, setShowModal] = useState(false);
   
     
-  console.log("Token from localStorage:", token);
+    console.log("Token from localStorage:", token);
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
