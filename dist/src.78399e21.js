@@ -35448,9 +35448,11 @@ function useUncontrolledProp(propValue, defaultValue, handler) {
   if (!isProp && wasProp && stateValue !== defaultValue) {
     setState(defaultValue);
   }
-  return [isProp ? propValue : stateValue, (0, _react.useCallback)((value, ...args) => {
-    if (handler) handler(value, ...args);
+  return [isProp ? propValue : stateValue, (0, _react.useCallback)((...args) => {
+    const [value, ...rest] = args;
+    let returnValue = handler == null ? void 0 : handler(value, ...rest);
     setState(value);
+    return returnValue;
   }, [handler])];
 }
 function useUncontrolled(props, config) {
@@ -38317,12 +38319,18 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SSRProvider = $704cf1d3b684cc5c$export$9f8ac96af4b1b2ae;
-exports.useIsSSR = $704cf1d3b684cc5c$export$535bd6ca7f90a273;
+exports.SSRProvider = $b5e257d569688ac6$export$9f8ac96af4b1b2ae;
+exports.useIsSSR = $b5e257d569688ac6$export$535bd6ca7f90a273;
 exports.useSSRSafeId = void 0;
 var _react = _interopRequireWildcard(require("react"));
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -38352,53 +38360,59 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 // being on the page at once, the prefix is set to a random number. SSRProvider
 // will reset this to zero for consistency between server and client, so in the
 // SSR case multiple copies of React Aria is not supported.
-const $704cf1d3b684cc5c$var$defaultContext = {
+var $b5e257d569688ac6$var$defaultContext = {
   prefix: String(Math.round(Math.random() * 10000000000)),
   current: 0,
   isSSR: false
 };
-const $704cf1d3b684cc5c$var$SSRContext = /*#__PURE__*/(0, _react.default).createContext($704cf1d3b684cc5c$var$defaultContext);
+var $b5e257d569688ac6$var$SSRContext = /*#__PURE__*/(0, _react.default).createContext($b5e257d569688ac6$var$defaultContext);
 // This is only used in React < 18.
-function $704cf1d3b684cc5c$var$LegacySSRProvider(props) {
-  let cur = (0, _react.useContext)($704cf1d3b684cc5c$var$SSRContext);
-  let counter = $704cf1d3b684cc5c$var$useCounter(cur === $704cf1d3b684cc5c$var$defaultContext);
-  let [isSSR, setIsSSR] = (0, _react.useState)(true);
-  let value = (0, _react.useMemo)(() => ({
-    // If this is the first SSRProvider, start with an empty string prefix, otherwise
-    // append and increment the counter.
-    prefix: cur === $704cf1d3b684cc5c$var$defaultContext ? "" : `${cur.prefix}-${counter}`,
-    current: 0,
-    isSSR: isSSR
-  }), [cur, counter, isSSR]);
+function $b5e257d569688ac6$var$LegacySSRProvider(props) {
+  var cur = (0, _react.useContext)($b5e257d569688ac6$var$SSRContext);
+  var counter = $b5e257d569688ac6$var$useCounter(cur === $b5e257d569688ac6$var$defaultContext);
+  var _ref = (0, _react.useState)(true),
+    _ref2 = _slicedToArray(_ref, 2),
+    isSSR = _ref2[0],
+    setIsSSR = _ref2[1];
+  var value = (0, _react.useMemo)(function () {
+    return {
+      // If this is the first SSRProvider, start with an empty string prefix, otherwise
+      // append and increment the counter.
+      prefix: cur === $b5e257d569688ac6$var$defaultContext ? "" : "".concat(cur.prefix, "-").concat(counter),
+      current: 0,
+      isSSR: isSSR
+    };
+  }, [cur, counter, isSSR]);
   // If on the client, and the component was initially server rendered,
   // then schedule a layout effect to update the component after hydration.
-  if (typeof window !== "undefined")
+  if (typeof document !== "undefined")
     // This if statement technically breaks the rules of hooks, but is safe
     // because the condition never changes after mounting.
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    (0, _react.useLayoutEffect)(() => {
+    (0, _react.useLayoutEffect)(function () {
       setIsSSR(false);
     }, []);
-  return /*#__PURE__*/(0, _react.default).createElement($704cf1d3b684cc5c$var$SSRContext.Provider, {
+  return /*#__PURE__*/(0, _react.default).createElement($b5e257d569688ac6$var$SSRContext.Provider, {
     value: value
   }, props.children);
 }
-let $704cf1d3b684cc5c$var$warnedAboutSSRProvider = false;
-function $704cf1d3b684cc5c$export$9f8ac96af4b1b2ae(props) {
+var $b5e257d569688ac6$var$warnedAboutSSRProvider = false;
+function $b5e257d569688ac6$export$9f8ac96af4b1b2ae(props) {
   if (typeof (0, _react.default)["useId"] === "function") {
-    if (!$704cf1d3b684cc5c$var$warnedAboutSSRProvider) {
+    if ("development" !== "test" && !$b5e257d569688ac6$var$warnedAboutSSRProvider) {
       console.warn("In React 18, SSRProvider is not necessary and is a noop. You can remove it from your app.");
-      $704cf1d3b684cc5c$var$warnedAboutSSRProvider = true;
+      $b5e257d569688ac6$var$warnedAboutSSRProvider = true;
     }
     return /*#__PURE__*/(0, _react.default).createElement((0, _react.default).Fragment, null, props.children);
   }
-  return /*#__PURE__*/(0, _react.default).createElement($704cf1d3b684cc5c$var$LegacySSRProvider, props);
+  return /*#__PURE__*/(0, _react.default).createElement($b5e257d569688ac6$var$LegacySSRProvider, props);
 }
-let $704cf1d3b684cc5c$var$canUseDOM = Boolean(typeof window !== "undefined" && window.document && window.document.createElement);
-let $704cf1d3b684cc5c$var$componentIds = new WeakMap();
-function $704cf1d3b684cc5c$var$useCounter(isDisabled = false) {
-  let ctx = (0, _react.useContext)($704cf1d3b684cc5c$var$SSRContext);
-  let ref = (0, _react.useRef)(null);
+var $b5e257d569688ac6$var$canUseDOM = Boolean(typeof window !== "undefined" && window.document && window.document.createElement);
+var $b5e257d569688ac6$var$componentIds = new WeakMap();
+function $b5e257d569688ac6$var$useCounter() {
+  var isDisabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var ctx = (0, _react.useContext)($b5e257d569688ac6$var$SSRContext);
+  var ref = (0, _react.useRef)(null);
   // eslint-disable-next-line rulesdir/pure-render
   if (ref.current === null && !isDisabled) {
     var _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED, _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner;
@@ -38412,12 +38426,12 @@ function $704cf1d3b684cc5c$var$useCounter(isDisabled = false) {
     // a weak map associated with the Fiber. On the second render, we reset the global counter to this value.
     // Since React runs the second render immediately after the first, this is safe.
     // @ts-ignore
-    let currentOwner = (_React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = (0, _react.default).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) === null || _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED === void 0 ? void 0 : (_React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner = _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner) === null || _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner === void 0 ? void 0 : _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner.current;
+    var currentOwner = (_React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = (0, _react.default).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) === null || _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED === void 0 ? void 0 : (_React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner = _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner) === null || _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner === void 0 ? void 0 : _React___SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_ReactCurrentOwner.current;
     if (currentOwner) {
-      let prevComponentValue = $704cf1d3b684cc5c$var$componentIds.get(currentOwner);
+      var prevComponentValue = $b5e257d569688ac6$var$componentIds.get(currentOwner);
       if (prevComponentValue == null)
         // On the first render, and first call to useId, store the id and state in our weak map.
-        $704cf1d3b684cc5c$var$componentIds.set(currentOwner, {
+        $b5e257d569688ac6$var$componentIds.set(currentOwner, {
           id: ctx.current,
           state: currentOwner.memoizedState
         });else if (currentOwner.memoizedState !== prevComponentValue.state) {
@@ -38425,7 +38439,7 @@ function $704cf1d3b684cc5c$var$useCounter(isDisabled = false) {
         // Reset the counter, and remove from the weak map so we don't
         // do this for subsequent useId calls.
         ctx.current = prevComponentValue.id;
-        $704cf1d3b684cc5c$var$componentIds.delete(currentOwner);
+        $b5e257d569688ac6$var$componentIds.delete(currentOwner);
       }
     }
     // eslint-disable-next-line rulesdir/pure-render
@@ -38434,39 +38448,42 @@ function $704cf1d3b684cc5c$var$useCounter(isDisabled = false) {
   // eslint-disable-next-line rulesdir/pure-render
   return ref.current;
 }
-function $704cf1d3b684cc5c$var$useLegacySSRSafeId(defaultId) {
-  let ctx = (0, _react.useContext)($704cf1d3b684cc5c$var$SSRContext);
+function $b5e257d569688ac6$var$useLegacySSRSafeId(defaultId) {
+  var ctx = (0, _react.useContext)($b5e257d569688ac6$var$SSRContext);
   // If we are rendering in a non-DOM environment, and there's no SSRProvider,
   // provide a warning to hint to the developer to add one.
-  if (ctx === $704cf1d3b684cc5c$var$defaultContext && !$704cf1d3b684cc5c$var$canUseDOM) console.warn("When server rendering, you must wrap your application in an <SSRProvider> to ensure consistent ids are generated between the client and server.");
-  let counter = $704cf1d3b684cc5c$var$useCounter(!!defaultId);
-  return defaultId || `react-aria${ctx.prefix}-${counter}`;
+  if (ctx === $b5e257d569688ac6$var$defaultContext && !$b5e257d569688ac6$var$canUseDOM) console.warn("When server rendering, you must wrap your application in an <SSRProvider> to ensure consistent ids are generated between the client and server.");
+  var counter = $b5e257d569688ac6$var$useCounter(!!defaultId);
+  var prefix = ctx === $b5e257d569688ac6$var$defaultContext && "development" === "test" ? "react-aria" : "react-aria".concat(ctx.prefix);
+  return defaultId || "".concat(prefix, "-").concat(counter);
 }
-function $704cf1d3b684cc5c$var$useModernSSRSafeId(defaultId) {
+function $b5e257d569688ac6$var$useModernSSRSafeId(defaultId) {
   // @ts-ignore
-  let id = (0, _react.default).useId();
-  let [didSSR] = (0, _react.useState)($704cf1d3b684cc5c$export$535bd6ca7f90a273());
-  let prefix = didSSR ? "react-aria" : `react-aria${$704cf1d3b684cc5c$var$defaultContext.prefix}`;
-  return defaultId || `${prefix}-${id}`;
+  var id = (0, _react.default).useId();
+  var _ref3 = (0, _react.useState)($b5e257d569688ac6$export$535bd6ca7f90a273()),
+    _ref4 = _slicedToArray(_ref3, 1),
+    didSSR = _ref4[0];
+  var prefix = didSSR || "development" === "test" ? "react-aria" : "react-aria".concat($b5e257d569688ac6$var$defaultContext.prefix);
+  return defaultId || "".concat(prefix, "-").concat(id);
 }
-const $704cf1d3b684cc5c$export$619500959fc48b26 = typeof (0, _react.default)["useId"] === "function" ? $704cf1d3b684cc5c$var$useModernSSRSafeId : $704cf1d3b684cc5c$var$useLegacySSRSafeId;
-exports.useSSRSafeId = $704cf1d3b684cc5c$export$619500959fc48b26;
-function $704cf1d3b684cc5c$var$getSnapshot() {
+var $b5e257d569688ac6$export$619500959fc48b26 = typeof (0, _react.default)["useId"] === "function" ? $b5e257d569688ac6$var$useModernSSRSafeId : $b5e257d569688ac6$var$useLegacySSRSafeId;
+exports.useSSRSafeId = $b5e257d569688ac6$export$619500959fc48b26;
+function $b5e257d569688ac6$var$getSnapshot() {
   return false;
 }
-function $704cf1d3b684cc5c$var$getServerSnapshot() {
+function $b5e257d569688ac6$var$getServerSnapshot() {
   return true;
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function $704cf1d3b684cc5c$var$subscribe(onStoreChange) {
+function $b5e257d569688ac6$var$subscribe(onStoreChange) {
   // noop
-  return () => {};
+  return function () {};
 }
-function $704cf1d3b684cc5c$export$535bd6ca7f90a273() {
+function $b5e257d569688ac6$export$535bd6ca7f90a273() {
   // In React 18, we can use useSyncExternalStore to detect if we're server rendering or hydrating.
-  if (typeof (0, _react.default)["useSyncExternalStore"] === "function") return (0, _react.default)["useSyncExternalStore"]($704cf1d3b684cc5c$var$subscribe, $704cf1d3b684cc5c$var$getSnapshot, $704cf1d3b684cc5c$var$getServerSnapshot);
+  if (typeof (0, _react.default)["useSyncExternalStore"] === "function") return (0, _react.default)["useSyncExternalStore"]($b5e257d569688ac6$var$subscribe, $b5e257d569688ac6$var$getSnapshot, $b5e257d569688ac6$var$getServerSnapshot);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  let cur = (0, _react.useContext)($704cf1d3b684cc5c$var$SSRContext);
+  var cur = (0, _react.useContext)($b5e257d569688ac6$var$SSRContext);
   return cur.isSSR;
 }
 },{"react":"../node_modules/react/index.js"}],"../node_modules/@restart/ui/esm/ssr.js":[function(require,module,exports) {
@@ -45684,11 +45701,11 @@ exports.matchPath = matchPath;
 exports.matchRoutes = matchRoutes;
 exports.normalizePathname = void 0;
 exports.parsePath = parsePath;
-exports.redirect = void 0;
+exports.redirectDocument = exports.redirect = void 0;
 exports.resolvePath = resolvePath;
 exports.resolveTo = resolveTo;
 exports.stripBasename = stripBasename;
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, catch: function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return { value: void 0, done: !0 }; } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable || "" === iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } throw new TypeError(_typeof(iterable) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, catch: function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -45721,7 +45738,7 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 /**
- * @remix-run/router v1.7.2
+ * @remix-run/router v1.8.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -45931,6 +45948,15 @@ function createHashHistory(options) {
       search = _parsePath$search === void 0 ? "" : _parsePath$search,
       _parsePath$hash = _parsePath.hash,
       hash = _parsePath$hash === void 0 ? "" : _parsePath$hash;
+    // Hash URL should always have a leading / just like window.location.pathname
+    // does, so if an app ends up at a route like /#something then we add a
+    // leading slash so all of our path-matching behaves the same as if it would
+    // in a browser router.  This is particularly important when there exists a
+    // root splat route (<Route path="*">) since that matches internally against
+    // "/*" and we'd expect /#something to 404 in a hash router app.
+    if (!pathname.startsWith("/") && !pathname.startsWith(".")) {
+      pathname = "/" + pathname;
+    }
     return createLocation("", {
       pathname: pathname,
       search: search,
@@ -47033,10 +47059,21 @@ var redirect = function redirect(url, init) {
   }));
 };
 /**
+ * A redirect response that will force a document reload to the new location.
+ * Sets the status code and the `Location` header.
+ * Defaults to "302 Found".
+ */
+exports.redirect = redirect;
+var redirectDocument = function redirectDocument(url, init) {
+  var response = redirect(url, init);
+  response.headers.set("X-Remix-Reload-Document", "true");
+  return response;
+};
+/**
  * @private
  * Utility class we use to hold auto-unwrapped 4xx/5xx Response bodies
  */
-exports.redirect = redirect;
+exports.redirectDocument = redirectDocument;
 var ErrorResponse = /*#__PURE__*/_createClass(function ErrorResponse(status, statusText, data, internal) {
   _classCallCheck(this, ErrorResponse);
   if (internal === void 0) {
@@ -48292,7 +48329,7 @@ function createRouter(init) {
   }
   function _startRedirectNavigation() {
     _startRedirectNavigation = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(state, redirect, _temp) {
-      var _ref7, submission, replace, isFetchActionRedirect, redirectLocation, url, isDifferentBasename, redirectHistoryAction, activeSubmission, overrideNavigation;
+      var _ref7, submission, replace, isFetchActionRedirect, redirectLocation, isDocumentReload, url, redirectHistoryAction, activeSubmission, overrideNavigation;
       return _regeneratorRuntime().wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
           case 0:
@@ -48308,14 +48345,23 @@ function createRouter(init) {
               _isFetchActionRedirect: true
             } : {}));
             invariant(redirectLocation, "Expected a location on the redirect navigation");
-            // Check if this an absolute external redirect that goes to a new origin
-            if (!(ABSOLUTE_URL_REGEX.test(redirect.location) && isBrowser)) {
+            if (!isBrowser) {
               _context8.next = 10;
               break;
             }
-            url = init.history.createURL(redirect.location);
-            isDifferentBasename = stripBasename(url.pathname, basename) == null;
-            if (!(routerWindow.location.origin !== url.origin || isDifferentBasename)) {
+            isDocumentReload = false;
+            if (redirect.reloadDocument) {
+              // Hard reload if the response contained X-Remix-Reload-Document
+              isDocumentReload = true;
+            } else if (ABSOLUTE_URL_REGEX.test(redirect.location)) {
+              url = init.history.createURL(redirect.location);
+              isDocumentReload =
+              // Hard reload if it's an absolute URL to a new origin
+              url.origin !== routerWindow.location.origin ||
+              // Hard reload if it's an absolute URL that does not match our basename
+              stripBasename(url.pathname, basename) == null;
+            }
+            if (!isDocumentReload) {
               _context8.next = 10;
               break;
             }
@@ -48970,7 +49016,7 @@ function createStaticHandler(routes, opts) {
               _context12.next = 19;
               break;
             }
-            if (!(_context12.t0.type === ResultType.error && !isRedirectResponse(_context12.t0.response))) {
+            if (!(_context12.t0.type === ResultType.error)) {
               _context12.next = 18;
               break;
             }
@@ -49649,7 +49695,7 @@ function callLoaderOrAction(_x64, _x65, _x66, _x67, _x68, _x69, _x70, _x71) {
 // Request instance from the static handler (query/queryRoute)
 function _callLoaderOrAction() {
   _callLoaderOrAction = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16(type, request, match, matches, manifest, mapRouteProperties, basename, opts) {
-    var resultType, result, onReject, runHandler, handler, values, url, pathname, _url, _pathname, status, location, currentUrl, _url2, isSameBasename, data, contentType, _result$init, _result$init2;
+    var resultType, result, onReject, runHandler, handler, values, url, pathname, _url, _pathname, status, location, currentUrl, _url2, isSameBasename, queryRouteResponse, data, contentType, _result$init, _result$init2;
     return _regeneratorRuntime().wrap(function _callee16$(_context17) {
       while (1) switch (_context17.prev = _context17.next) {
         case 0:
@@ -49756,7 +49802,7 @@ function _callLoaderOrAction() {
           return _context17.finish(46);
         case 49:
           if (!isResponse(result)) {
-            _context17.next = 74;
+            _context17.next = 75;
             break;
           }
           status = result.status; // Process redirects
@@ -49795,38 +49841,40 @@ function _callLoaderOrAction() {
             type: ResultType.redirect,
             status: status,
             location: location,
-            revalidate: result.headers.get("X-Remix-Revalidate") !== null
+            revalidate: result.headers.get("X-Remix-Revalidate") !== null,
+            reloadDocument: result.headers.get("X-Remix-Reload-Document") !== null
           });
         case 59:
           if (!opts.isRouteRequest) {
-            _context17.next = 61;
+            _context17.next = 62;
             break;
           }
-          throw {
-            type: resultType || ResultType.data,
+          queryRouteResponse = {
+            type: resultType === ResultType.error ? ResultType.error : ResultType.data,
             response: result
           };
-        case 61:
+          throw queryRouteResponse;
+        case 62:
           contentType = result.headers.get("Content-Type"); // Check between word boundaries instead of startsWith() due to the last
           // paragraph of https://httpwg.org/specs/rfc9110.html#field.content-type
           if (!(contentType && /\bapplication\/json\b/.test(contentType))) {
-            _context17.next = 68;
+            _context17.next = 69;
             break;
           }
-          _context17.next = 65;
+          _context17.next = 66;
           return result.json();
-        case 65:
+        case 66:
           data = _context17.sent;
-          _context17.next = 71;
+          _context17.next = 72;
           break;
-        case 68:
-          _context17.next = 70;
+        case 69:
+          _context17.next = 71;
           return result.text();
-        case 70:
-          data = _context17.sent;
         case 71:
+          data = _context17.sent;
+        case 72:
           if (!(resultType === ResultType.error)) {
-            _context17.next = 73;
+            _context17.next = 74;
             break;
           }
           return _context17.abrupt("return", {
@@ -49834,25 +49882,25 @@ function _callLoaderOrAction() {
             error: new ErrorResponse(status, result.statusText, data),
             headers: result.headers
           });
-        case 73:
+        case 74:
           return _context17.abrupt("return", {
             type: ResultType.data,
             data: data,
             statusCode: result.status,
             headers: result.headers
           });
-        case 74:
+        case 75:
           if (!(resultType === ResultType.error)) {
-            _context17.next = 76;
+            _context17.next = 77;
             break;
           }
           return _context17.abrupt("return", {
             type: resultType,
             error: result
           });
-        case 76:
+        case 77:
           if (!isDeferredData(result)) {
-            _context17.next = 78;
+            _context17.next = 79;
             break;
           }
           return _context17.abrupt("return", {
@@ -49861,12 +49909,12 @@ function _callLoaderOrAction() {
             statusCode: (_result$init = result.init) == null ? void 0 : _result$init.status,
             headers: ((_result$init2 = result.init) == null ? void 0 : _result$init2.headers) && new Headers(result.init.headers)
           });
-        case 78:
+        case 79:
           return _context17.abrupt("return", {
             type: ResultType.data,
             data: result
           });
-        case 79:
+        case 80:
         case "end":
           return _context17.stop();
       }
@@ -50202,7 +50250,7 @@ function isRedirectResponse(result) {
   return status >= 300 && status <= 399 && location != null;
 }
 function isQueryRouteResponse(obj) {
-  return obj && isResponse(obj.response) && (obj.type === ResultType.data || ResultType.error);
+  return obj && isResponse(obj.response) && (obj.type === ResultType.data || obj.type === ResultType.error);
 }
 function isValidMethod(method) {
   return validRequestMethods.has(method.toLowerCase());
@@ -50215,7 +50263,7 @@ function resolveDeferredResults(_x72, _x73, _x74, _x75, _x76, _x77) {
 }
 function _resolveDeferredResults() {
   _resolveDeferredResults = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(currentMatches, matchesToLoad, results, signals, isFetcher, currentLoaderData) {
-    var _loop, index, _ret;
+    var _loop, index;
     return _regeneratorRuntime().wrap(function _callee17$(_context19) {
       while (1) switch (_context19.prev = _context19.next) {
         case 0:
@@ -50232,7 +50280,7 @@ function _resolveDeferredResults() {
                     _context18.next = 4;
                     break;
                   }
-                  return _context18.abrupt("return", "continue");
+                  return _context18.abrupt("return", 1);
                 case 4:
                   currentMatch = currentMatches.find(function (m) {
                     return m.route.id === match.route.id;
@@ -50262,22 +50310,21 @@ function _resolveDeferredResults() {
           index = 0;
         case 2:
           if (!(index < results.length)) {
-            _context19.next = 10;
+            _context19.next = 9;
             break;
           }
           return _context19.delegateYield(_loop(index), "t0", 4);
         case 4:
-          _ret = _context19.t0;
-          if (!(_ret === "continue")) {
-            _context19.next = 7;
+          if (!_context19.t0) {
+            _context19.next = 6;
             break;
           }
-          return _context19.abrupt("continue", 7);
-        case 7:
+          return _context19.abrupt("continue", 6);
+        case 6:
           index++;
           _context19.next = 2;
           break;
-        case 10:
+        case 9:
         case "end":
           return _context19.stop();
       }
@@ -50589,6 +50636,12 @@ Object.defineProperty(exports, "redirect", {
     return _router.redirect;
   }
 });
+Object.defineProperty(exports, "redirectDocument", {
+  enumerable: true,
+  get: function () {
+    return _router.redirectDocument;
+  }
+});
 exports.renderMatches = renderMatches;
 Object.defineProperty(exports, "resolvePath", {
   enumerable: true,
@@ -50644,7 +50697,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /**
-                                                                                                                                                                                                                      * React Router v6.14.2
+                                                                                                                                                                                                                      * React Router v6.15.0
                                                                                                                                                                                                                       *
                                                                                                                                                                                                                       * Copyright (c) Remix Software Inc.
                                                                                                                                                                                                                       *
@@ -51247,14 +51300,13 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
     }) : getChildren();
   }, null);
 }
-var DataRouterHook;
-(function (DataRouterHook) {
+var DataRouterHook = /*#__PURE__*/function (DataRouterHook) {
   DataRouterHook["UseBlocker"] = "useBlocker";
   DataRouterHook["UseRevalidator"] = "useRevalidator";
   DataRouterHook["UseNavigateStable"] = "useNavigate";
-})(DataRouterHook || (DataRouterHook = {}));
-var DataRouterStateHook;
-(function (DataRouterStateHook) {
+  return DataRouterHook;
+}(DataRouterHook || {});
+var DataRouterStateHook = /*#__PURE__*/function (DataRouterStateHook) {
   DataRouterStateHook["UseBlocker"] = "useBlocker";
   DataRouterStateHook["UseLoaderData"] = "useLoaderData";
   DataRouterStateHook["UseActionData"] = "useActionData";
@@ -51265,7 +51317,8 @@ var DataRouterStateHook;
   DataRouterStateHook["UseRevalidator"] = "useRevalidator";
   DataRouterStateHook["UseNavigateStable"] = "useNavigate";
   DataRouterStateHook["UseRouteId"] = "useRouteId";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
+  return DataRouterStateHook;
+}(DataRouterStateHook || {});
 function getDataRouterConsoleError(hookName) {
   return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
 }
@@ -51316,10 +51369,12 @@ function useNavigation() {
 function useRevalidator() {
   var dataRouterContext = useDataRouterContext(DataRouterHook.UseRevalidator);
   var state = useDataRouterState(DataRouterStateHook.UseRevalidator);
-  return {
-    revalidate: dataRouterContext.router.revalidate,
-    state: state.revalidation
-  };
+  return React.useMemo(function () {
+    return {
+      revalidate: dataRouterContext.router.revalidate,
+      state: state.revalidation
+    };
+  }, [dataRouterContext.router.revalidate, state.revalidation]);
 }
 
 /**
@@ -51823,12 +51878,12 @@ function Await(_ref7) {
     errorElement: errorElement
   }, /*#__PURE__*/React.createElement(ResolveAwait, null, children));
 }
-var AwaitRenderStatus;
-(function (AwaitRenderStatus) {
+var AwaitRenderStatus = /*#__PURE__*/function (AwaitRenderStatus) {
   AwaitRenderStatus[AwaitRenderStatus["pending"] = 0] = "pending";
   AwaitRenderStatus[AwaitRenderStatus["success"] = 1] = "success";
   AwaitRenderStatus[AwaitRenderStatus["error"] = 2] = "error";
-})(AwaitRenderStatus || (AwaitRenderStatus = {}));
+  return AwaitRenderStatus;
+}(AwaitRenderStatus || {});
 var neverSettledPromise = new Promise(function () {});
 var AwaitErrorBoundary = /*#__PURE__*/function (_React$Component2) {
   _inherits(AwaitErrorBoundary, _React$Component2);
@@ -52247,6 +52302,12 @@ Object.defineProperty(exports, "redirect", {
     return _reactRouter.redirect;
   }
 });
+Object.defineProperty(exports, "redirectDocument", {
+  enumerable: true,
+  get: function () {
+    return _reactRouter.redirectDocument;
+  }
+});
 Object.defineProperty(exports, "renderMatches", {
   enumerable: true,
   get: function () {
@@ -52405,20 +52466,19 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; } /**
-                                                                                                                                                                                     * React Router DOM v6.14.2
-                                                                                                                                                                                     *
-                                                                                                                                                                                     * Copyright (c) Remix Software Inc.
-                                                                                                                                                                                     *
-                                                                                                                                                                                     * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                     * LICENSE.md file in the root directory of this source tree.
-                                                                                                                                                                                     *
-                                                                                                                                                                                     * @license MIT
-                                                                                                                                                                                     */
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; } /**
+                                                                       * React Router DOM v6.15.0
+                                                                       *
+                                                                       * Copyright (c) Remix Software Inc.
+                                                                       *
+                                                                       * This source code is licensed under the MIT license found in the
+                                                                       * LICENSE.md file in the root directory of this source tree.
+                                                                       *
+                                                                       * @license MIT
+                                                                       */
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -52505,25 +52565,18 @@ function createSearchParams(init) {
 function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
   var searchParams = createSearchParams(locationSearch);
   if (defaultSearchParams) {
-    var _iterator = _createForOfIteratorHelper(defaultSearchParams.keys()),
-      _step;
-    try {
-      var _loop = function _loop() {
-        var key = _step.value;
-        if (!searchParams.has(key)) {
-          defaultSearchParams.getAll(key).forEach(function (value) {
-            searchParams.append(key, value);
-          });
-        }
-      };
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        _loop();
+    // Use `defaultSearchParams.forEach(...)` here instead of iterating of
+    // `defaultSearchParams.keys()` to work-around a bug in Firefox related to
+    // web extensions. Relevant Bugzilla tickets:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1414602
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1023984
+    defaultSearchParams.forEach(function (_, key) {
+      if (!searchParams.has(key)) {
+        defaultSearchParams.getAll(key).forEach(function (value) {
+          searchParams.append(key, value);
+        });
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
+    });
   }
   return searchParams;
 }
@@ -53232,17 +53285,15 @@ function useFormAction(action, _temp2) {
     relative: relative
   }));
   // Previously we set the default action to ".". The problem with this is that
-  // `useResolvedPath(".")` excludes search params and the hash of the resolved
-  // URL. This is the intended behavior of when "." is specifically provided as
+  // `useResolvedPath(".")` excludes search params of the resolved URL. This is
+  // the intended behavior of when "." is specifically provided as
   // the form action, but inconsistent w/ browsers when the action is omitted.
   // https://github.com/remix-run/remix/issues/927
   var location = (0, _reactRouter.useLocation)();
   if (action == null) {
-    // Safe to write to these directly here since if action was undefined, we
+    // Safe to write to this directly here since if action was undefined, we
     // would have called useResolvedPath(".") which will never include a search
-    // or hash
     path.search = location.search;
-    path.hash = location.hash;
     // When grabbing search params from the URL, remove the automatically
     // inserted ?index param so we match the useResolvedPath search behavior
     // which would not include ?index
@@ -53490,20 +53541,23 @@ function usePrompt(_ref8) {
     message = _ref8.message;
   var blocker = (0, _reactRouter.unstable_useBlocker)(when);
   React.useEffect(function () {
-    if (blocker.state === "blocked" && !when) {
-      blocker.reset();
-    }
-  }, [blocker, when]);
-  React.useEffect(function () {
     if (blocker.state === "blocked") {
       var proceed = window.confirm(message);
       if (proceed) {
+        // This timeout is needed to avoid a weird "race" on POP navigations
+        // between the `window.history` revert navigation and the result of
+        // `window.confirm`
         setTimeout(blocker.proceed, 0);
       } else {
         blocker.reset();
       }
     }
   }, [blocker, message]);
+  React.useEffect(function () {
+    if (blocker.state === "blocked" && !when) {
+      blocker.reset();
+    }
+  }, [blocker, when]);
 }
 //#endregion
 },{"react":"../node_modules/react/index.js","react-router":"../node_modules/react-router/dist/index.js","@remix-run/router":"../node_modules/@remix-run/router/dist/router.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
@@ -53625,8 +53679,8 @@ var _react = _interopRequireWildcard(require("react"));
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouter = require("react-router");
-var _reactRouterDom = require("react-router-dom");
 require("./movie-view.scss");
+var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -53636,19 +53690,18 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-//<img src={loginImage} alt="Login" className="login-image" />
 var MovieView = function MovieView(_ref) {
   var movies = _ref.movies,
     user = _ref.user,
     setUser = _ref.setUser;
+  console.log("Received user prop:", user);
   var _useParams = (0, _reactRouter.useParams)(),
     movieId = _useParams.movieId;
   var _useState = (0, _react.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
     isFavorite = _useState2[0],
     setIsFavorite = _useState2[1];
-  //const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
+  var storedUser = JSON.parse(localStorage.getItem('user'));
   var _useState3 = (0, _react.useState)(false),
     _useState4 = _slicedToArray(_useState3, 2),
     isMovieToWatch = _useState4[0],
@@ -53775,17 +53828,10 @@ var MovieView = function MovieView(_ref) {
     className: "mb-3",
     size: "sm",
     onClick: addToMoviesToWatch
-  }, "Add movie to Watchlist")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
-    className: "d-flex justify-content-center",
-    onClick: function onClick() {
-      return history.goBack();
-    }
-  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "secondary"
-  }, "Back")))));
+  }, "Add movie to Watchlist")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null))));
 };
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router":"../node_modules/react-router/dist/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/login-view/login-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router":"../node_modules/react-router/dist/index.js","./movie-view.scss":"components/movie-view/movie-view.scss","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"components/login-view/login-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
@@ -53841,7 +53887,7 @@ var LoginView = function LoginView(_ref) {
       console.log("Login response: ", data);
       if (data.token) {
         localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token); // Set the token in localStorage
+        localStorage.setItem("token", JSON.stringify(data.token)); // Set the token in localStorage
         onLoggedIn(data.user, data.token);
       } else {
         alert("No such user found.");
@@ -54099,8 +54145,7 @@ var ProfileView = function ProfileView(_ref) {
   var moviesToWatch = movies.filter(function (movie) {
     return user.MoviesToWatch && user.MoviesToWatch.includes(movie._id);
   });
-  console.log("MoviesToWatch array from user object:", moviesToWatch); // Corrected logging
-
+  console.log("MoviesToWatch IDs from user object:", moviesToWatchIds);
   var handleShowModal = function handleShowModal() {
     setShowModal(true);
   };
@@ -54435,6 +54480,7 @@ var _signupView = require("../signup-view/signup-view");
 var _profileView = require("../profile-view/profile-view");
 var _movies = _interopRequireDefault(require("../../assets/movies.png"));
 var _logo = _interopRequireDefault(require("../../assets/logo.png"));
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
@@ -54458,8 +54504,12 @@ var MainView = function MainView() {
     _useState4 = _slicedToArray(_useState3, 2),
     movies = _useState4[0],
     setMovies = _useState4[1];
-  var storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log("Stored User:", localStorage.getItem("user"));
   var storedToken = localStorage.getItem("token");
+  var storedUserData = localStorage.getItem("user");
+  var storedUser = storedUserData ? JSON.parse(storedUserData) : null;
+  console.log("Stored User Data:", storedUserData);
+  console.log("Parsed User Data:", storedUser);
   var _useState5 = (0, _react.useState)(storedUser || null),
     _useState6 = _slicedToArray(_useState5, 2),
     user = _useState6[0],
@@ -54504,6 +54554,7 @@ var MainView = function MainView() {
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
+      console.log(data);
       var moviesFromApi = data.map(function (movie) {
         return {
           _id: movie._id,
@@ -54672,7 +54723,7 @@ var MainView = function MainView() {
   }, "Visit my GitHub"))));
 };
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../signup-view/signup-view":"components/signup-view/signup-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../../assets/movies.png":"assets/movies.png","../../assets/logo.png":"assets/logo.png","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../navigation-bar/navigation-bar":"components/navigation-bar/navigation-bar.jsx"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../signup-view/signup-view":"components/signup-view/signup-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../../assets/movies.png":"assets/movies.png","../../assets/logo.png":"assets/logo.png","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../navigation-bar/navigation-bar":"components/navigation-bar/navigation-bar.jsx"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
@@ -54723,7 +54774,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54162" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58748" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

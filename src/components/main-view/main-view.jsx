@@ -7,6 +7,8 @@ import { ProfileView } from "../profile-view/profile-view";
 import moviesImage from "../../assets/movies.png";
 import logo from "../../assets/logo.png";
 
+
+import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
@@ -16,8 +18,12 @@ import { NavigationBar } from "../navigation-bar/navigation-bar";
 export const MainView = () => {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log("Stored User:", localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
+  const storedUserData = localStorage.getItem("user");
+  const storedUser = storedUserData ? JSON.parse(storedUserData) : null;
+  console.log("Stored User Data:", storedUserData);
+  console.log("Parsed User Data:", storedUser);
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
   const [filter, setFilter] = useState("");
@@ -46,6 +52,7 @@ export const MainView = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,

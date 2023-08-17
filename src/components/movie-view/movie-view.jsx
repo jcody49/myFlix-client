@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Card } from "react-bootstrap";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
 import "./movie-view.scss";
+import { useHistory } from "react-router-dom";
 
-//<img src={loginImage} alt="Login" className="login-image" />
-export const MovieView = ({ movies, user, setUser, }) => {
+
+export const MovieView = ({ movies, user, setUser }) => {
+  console.log("Received user prop:", user);
   const { movieId } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
-  //const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-  
-  const [isMovieToWatch, setIsMovieToWatch] = useState(false);
 
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const [isMovieToWatch, setIsMovieToWatch] = useState(false);
+  
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -157,12 +159,15 @@ export const MovieView = ({ movies, user, setUser, }) => {
           <br/>
           <br/>
 
+          {/*    
           <div
             className="d-flex justify-content-center"
             onClick={() => history.goBack()} 
           >
             <Button variant="secondary">Back</Button>
           </div>
+            */}
+
 
         </Card.Body>
       </Card>

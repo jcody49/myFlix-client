@@ -26,12 +26,11 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, setUser }) => {
   // Creating a local variable to hold the MoviesToWatch IDs
   const moviesToWatchIds = user.MoviesToWatch || [];
   console.log("MoviesToWatch IDs from user object:", moviesToWatchIds);
-  
+
   const moviesToWatch = movies.filter((movie) => {
     return user.MoviesToWatch && user.MoviesToWatch.includes(movie._id);
   });
-  console.log("MoviesToWatch array from user object:", moviesToWatch); // Corrected logging
-  
+  console.log("MoviesToWatch IDs from user object:", moviesToWatchIds);
   
 
   const handleShowModal = () => {
